@@ -1,10 +1,12 @@
 import { Component } from "react";
-import httpService from "../services/httpService";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import httpService from "../services/httpService";
+import SearchBox from "./SearchBox";
+
 class Taxonomy extends Component {
   state = {
     myData: [],
+    searchQuery: "",
   };
 
   async componentDidMount() {
@@ -13,22 +15,17 @@ class Taxonomy extends Component {
     this.setState({ myData: data });
   }
 
-  getInfo = async () => {
-    const { data } = await httpService.get("http://localhost:3001");
-    console.log(data);
-    this.setState({ myData: data });
+  handleSearch = (value) => {
+    this.setState({ searchQuery: value });
   };
 
-  // <div class="row">
-  //   <div class="col-lg-4 col-sm-6" ></div>
-  //   <div class="col-lg-4 col-sm-6"></div>
-  //   <div class="col-lg-4 col-sm-12"></div>
   render() {
+    const { searchQuery, myData } = this.state;
+
     return (
       <div class="row">
         <div class="col-lg-6 col-sm-6">
-          {/* <button onClick={() => this.getInfo()}>Click me</button> */}
-
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <table class="table">
             <thead>
               <tr>
@@ -37,8 +34,9 @@ class Taxonomy extends Component {
                 <th scope="col">Parent Tax_ID</th>
               </tr>
             </thead>
+
             <tbody>
-              {this.state.myData.map((row) => (
+              {myData.map((row) => (
                 <tr key={row.tax_id}>
                   <td>
                     <Link to={`/taxonomy_taxid/${row.tax_id}`}>
@@ -60,20 +58,5 @@ class Taxonomy extends Component {
     );
   }
 }
-
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        {children}
-        <button type="button" onClick={handleClose}>
-          Close
-        </button>
-      </section>
-    </div>
-  );
-};
 
 export default Taxonomy;

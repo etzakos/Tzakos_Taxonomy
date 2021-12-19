@@ -1,10 +1,8 @@
-import { reduceRight } from "lodash";
 import { Component } from "react";
 import "./App.css";
 import Taxonomy from "./components/Taxonomy";
 import Taxonomy_parent from "./components/Taxonomy_parent";
 import Taxonomy_taxid from "./components/Taxonomy_taxid";
-import httpService from "./services/httpService";
 import { Route, Redirect, Switch } from "react-router-dom";
 import NotFound from "./components/Not_found";
 

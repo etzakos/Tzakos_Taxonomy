@@ -1,33 +1,9 @@
 const express = require("express");
-const mysql = require("mysql2");
 const app = express();
-
-const cors = require("cors");
-
-var pool = mysql.createPool({
-  connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "taxonomy",
-});
-
-pool.getConnection(function (err) {
-  if (err) {
-    return console.error("error: " + err.message);
-  }
-
-  console.log("Connected to the MySQL server.");
-});
-
-// pool.end(function(err) {
-//     if (err) {
-//       return console.log(err.message);
-//     }
-//     // close all connections
-//   });
+const pool = require("./services/dbService");
 
 app.use(express.json());
+const cors = require("cors");
 app.use(cors({ origin: "*" }));
 
 app.get("/", async (req, res) => {
@@ -38,27 +14,15 @@ app.get("/", async (req, res) => {
     }
     res.send(results);
   });
-
-  //   res.send("Hello World!!");
-});
-
-app.get("/:id", (req, res) => {
-  let id = req.params.id;
-  let sql = `SELECT * FROM nodes where tax_id = ${id} limit 5`;
-  pool.query(sql, (error, results, fields) => {
-    if (error) {
-      return console.error(error.message);
-    }
-    res.send(results);
-  });
-
-  //   res.send("Hello World!!");
 });
 
 app.get("/taxonomy_taxid/:id", (req, res) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM taxonomy.nodes where tax_id = ${id}`;
-  let sql = `SELECT * From taxonomy.nodes INNER JOIN taxonomy.tax_names ON tax_names.tax_id=nodes.tax_id INNER JOIN taxonomy.gencode
+  let sql = `SELECT * From taxonomy.nodes 
+  INNER JOIN taxonomy.tax_names 
+  ON tax_names.tax_id=nodes.tax_id 
+  INNER JOIN taxonomy.gencode
   ON gencode.genetic_code_id=nodes.tax_id WHERE tax_names.tax_id = ${id} and name_class = 'scientific name'; `;
 
   pool.query(sql, (error, results, fields) => {
@@ -81,20 +45,20 @@ app.get("/taxonomy_parent/:id", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
-  //   res.send(req.body.name);
+app.post("/tax_names/search_unique_name", (req, res) => {
+  let unique_name = req.body.unique_name.toLowerCase();
 
-  let id = req.body.id;
-
-  let sql = `SELECT name_txt FROM taxonomy.tax_names 
-  where tax_id = ${id} and name_class = 'scientific name';`;
+  let sql = `SELECT * 
+              FROM taxonomy.tax_names 
+              where LOWER(unique_name) 
+              like '${unique_name}%' 
+              and name_class <> 'type material';`;
 
   pool.query(sql, (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }
-
-    res.setHeader("Access-Control-Allow-Origin", "*").send(results);
+    res.send(results);
   });
 });
 
