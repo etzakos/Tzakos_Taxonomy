@@ -1,6 +1,6 @@
 import React from "react";
 
-const SearchBox = ({ value, onChange, ...rest }) => {
+const SearchBox = ({ value, onChange }) => {
   return (
     <input
       type="text"
@@ -8,7 +8,6 @@ const SearchBox = ({ value, onChange, ...rest }) => {
       className="form-control my-3"
       placeholder="Search..."
       value={value}
-      {...rest}
       onChange={(e) => onChange(e.currentTarget.value)}
     />
   );
