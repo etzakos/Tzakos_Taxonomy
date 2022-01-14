@@ -6,7 +6,9 @@ import SearchBox from "./SearchBox";
 class Taxonomy extends Component {
   state = {
     myData: [],
-    searchQuery: "",
+    leftSearchBox: "",
+    rightSearchBox: "",
+    dropDownActiveText: "Mutliple Search",
   };
 
   async componentDidMount() {
@@ -15,8 +17,12 @@ class Taxonomy extends Component {
     this.setState({ myData: data });
   }
 
-  handleSearch = (value) => {
-    this.setState({ searchQuery: value });
+  handleSearch1 = (value) => {
+    this.setState({ leftSearchBox: value });
+  };
+
+  handleSearch2 = (value) => {
+    this.setState({ rightSearchBox: value });
   };
 
   render() {
@@ -24,8 +30,67 @@ class Taxonomy extends Component {
 
     return (
       <div class="row">
-        <div class="col-lg-6 col-sm-6">
-          <SearchBox value={searchQuery} onChange={this.handleSearch} />
+        <div class="col-lg-4 col-sm-4">
+          <SearchBox
+            style={{ border: "1px solid black" }}
+            value={searchQuery}
+            onChange={this.handleSearch1}
+          />
+        </div>
+        <div class="col-lg-4 col-sm-4" align="center">
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              style={{ margin: "16px" }}
+            >
+              {this.state.dropDownActiveText}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {this.state.dropDownActiveText === "Mutliple Search" ? (
+                ""
+              ) : (
+                <a
+                  class="dropdown-item"
+                  onClick={() =>
+                    this.setState({ dropDownActiveText: "Mutliple Search" })
+                  }
+                >
+                  No Multiple Search
+                </a>
+              )}
+              <a
+                class="dropdown-item"
+                onClick={() => this.setState({ dropDownActiveText: "AND" })}
+              >
+                AND
+              </a>
+              <a
+                class="dropdown-item"
+                onClick={() => this.setState({ dropDownActiveText: "OR" })}
+              >
+                OR
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          {this.state.dropDownActiveText === "Mutliple Search" ? (
+            ""
+          ) : (
+            <SearchBox
+              style={{ border: "1px solid black" }}
+              value={searchQuery}
+              onChange={this.handleSearch2}
+            />
+          )}
+        </div>
+        <div class="col-lg-1 col-sm-1"></div>
+        <div class="col-lg-10 col-sm-10">
           <table class="table">
             <thead>
               <tr>
@@ -54,6 +119,7 @@ class Taxonomy extends Component {
             </tbody>
           </table>
         </div>
+        <div class="col-lg-1 col-sm-1"></div>
       </div>
     );
   }
