@@ -43,39 +43,45 @@ class Taxonomy extends Component {
               class="btn btn-secondary dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
-              data-toggle="dropdown"
+              data-bs-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
               style={{ margin: "16px" }}
             >
               {this.state.dropDownActiveText}
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {this.state.dropDownActiveText === "Mutliple Search" ? (
                 ""
               ) : (
+                <li>
+                  <a
+                    class="dropdown-item"
+                    onClick={() =>
+                      this.setState({ dropDownActiveText: "Mutliple Search" })
+                    }
+                  >
+                    No Multiple Search
+                  </a>
+                </li>
+              )}
+              <li>
                 <a
                   class="dropdown-item"
-                  onClick={() =>
-                    this.setState({ dropDownActiveText: "Mutliple Search" })
-                  }
+                  onClick={() => this.setState({ dropDownActiveText: "AND" })}
                 >
-                  No Multiple Search
+                  AND
                 </a>
-              )}
-              <a
-                class="dropdown-item"
-                onClick={() => this.setState({ dropDownActiveText: "AND" })}
-              >
-                AND
-              </a>
-              <a
-                class="dropdown-item"
-                onClick={() => this.setState({ dropDownActiveText: "OR" })}
-              >
-                OR
-              </a>
-            </div>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  onClick={() => this.setState({ dropDownActiveText: "OR" })}
+                >
+                  OR
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="col-lg-4 col-sm-4">
