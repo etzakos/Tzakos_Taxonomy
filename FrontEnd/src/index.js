@@ -1,7 +1,3 @@
-// ADDITION
-//Tzakos comment
-//Third change
-//Fourth change
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -11,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "../src/css/modal.css";
+import "antd/dist/antd.css";
 
 ReactDOM.render(
   <BrowserRouter>

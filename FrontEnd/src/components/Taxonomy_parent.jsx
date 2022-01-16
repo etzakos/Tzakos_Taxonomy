@@ -1,6 +1,7 @@
 import { Component } from "react";
 import httpService from "../services/httpService";
 import { Link } from "react-router-dom";
+
 class Taxonomy_parent extends Component {
   state = {
     myData: [],
@@ -17,11 +18,11 @@ class Taxonomy_parent extends Component {
 
   render() {
     return (
-      <div class="row">
-        <div class="col-lg-6 col-sm-6">
+      <div className="row">
+        <div className="col-lg-6 col-sm-6">
           {/* <button onClick={() => this.getInfo()}>Click me</button> */}
 
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">Tax_ID</th>

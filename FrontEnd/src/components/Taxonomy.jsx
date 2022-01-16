@@ -2,6 +2,8 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import httpService from "../services/httpService";
 import SearchBox from "./SearchBox";
+import Pagination from "./common/Pagination";
+import { paginate } from "./utils/paginate";
 
 class Taxonomy extends Component {
   state = {
@@ -9,11 +11,13 @@ class Taxonomy extends Component {
     leftSearchBox: "",
     rightSearchBox: "",
     dropDownActiveText: "Mutliple Search",
+    currentPage: 1,
+    pageSize: 10,
+    itemNum: 0,
   };
 
   async componentDidMount() {
     const { data } = await httpService.get("http://localhost:3001");
-    console.log(data);
     this.setState({ myData: data });
   }
 
@@ -24,23 +28,35 @@ class Taxonomy extends Component {
   handleSearch2 = (value) => {
     this.setState({ rightSearchBox: value });
   };
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
+
+  getPagedData = () => {
+    const { pageSize, currentPage, myData } = this.state;
+
+    const pagedItems = paginate(myData, currentPage, pageSize);
+    console.log(pagedItems);
+    return pagedItems;
+  };
 
   render() {
-    const { searchQuery, myData } = this.state;
+    const { searchQuery } = this.state;
+    const pagedData = this.getPagedData();
 
     return (
-      <div class="row">
-        <div class="col-lg-4 col-sm-4">
+      <div className="row">
+        <div className="col-lg-4 col-sm-4">
           <SearchBox
             style={{ border: "1px solid black" }}
             value={searchQuery}
             onChange={this.handleSearch1}
           />
         </div>
-        <div class="col-lg-4 col-sm-4" align="center">
-          <div class="dropdown">
+        <div className="col-lg-4 col-sm-4" align="center">
+          <div className="dropdown">
             <button
-              class="btn btn-secondary dropdown-toggle"
+              className="btn btn-secondary dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
               data-bs-toggle="dropdown"
@@ -50,41 +66,41 @@ class Taxonomy extends Component {
             >
               {this.state.dropDownActiveText}
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {this.state.dropDownActiveText === "Mutliple Search" ? (
                 ""
               ) : (
                 <li>
-                  <a
-                    class="dropdown-item"
+                  <button
+                    className="dropdown-item"
                     onClick={() =>
                       this.setState({ dropDownActiveText: "Mutliple Search" })
                     }
                   >
                     No Multiple Search
-                  </a>
+                  </button>
                 </li>
               )}
               <li>
-                <a
-                  class="dropdown-item"
+                <button
+                  className="dropdown-item"
                   onClick={() => this.setState({ dropDownActiveText: "AND" })}
                 >
                   AND
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  class="dropdown-item"
+                <button
+                  className="dropdown-item"
                   onClick={() => this.setState({ dropDownActiveText: "OR" })}
                 >
                   OR
-                </a>
+                </button>
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-lg-4 col-sm-4">
+        <div className="col-lg-4 col-sm-4">
           {this.state.dropDownActiveText === "Mutliple Search" ? (
             ""
           ) : (
@@ -95,11 +111,12 @@ class Taxonomy extends Component {
             />
           )}
         </div>
-        <div class="col-lg-1 col-sm-1"></div>
-        <div class="col-lg-10 col-sm-10">
-          <table class="table">
+        <div className="col-lg-1 col-sm-1"></div>
+        <div className="col-lg-10 col-sm-10">
+          <table className="table">
             <thead>
               <tr>
+                <th scope="col">Item</th>
                 <th scope="col">Tax_ID</th>
                 <th scope="col">Rank</th>
                 <th scope="col">Parent Tax_ID</th>
@@ -107,8 +124,11 @@ class Taxonomy extends Component {
             </thead>
 
             <tbody>
-              {myData.map((row) => (
+              {pagedData.map((row, i) => (
                 <tr key={row.tax_id}>
+                  <td>
+                    {i + (this.state.currentPage - 1) * this.state.pageSize + 1}
+                  </td>
                   <td>
                     <Link to={`/taxonomy_taxid/${row.tax_id}`}>
                       {row.tax_id}
@@ -125,7 +145,15 @@ class Taxonomy extends Component {
             </tbody>
           </table>
         </div>
-        <div class="col-lg-1 col-sm-1"></div>
+        <div className="col-lg-8 col-sm-8"></div>
+        <div className="col-lg-4 col-sm-4">
+          <Pagination
+            itemsCount={this.state.myData.length}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
       </div>
     );
   }
