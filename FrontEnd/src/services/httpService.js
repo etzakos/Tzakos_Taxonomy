@@ -16,9 +16,11 @@ import axios from "axios";
 // 	return Promise.reject(error);
 // });
 
-export default {
+const a = {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
 };
+
+export default a;

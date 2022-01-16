@@ -10,11 +10,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 class App extends Component {
-  // <div class="row">
-  //   <div class="col-lg-4 col-sm-6" ></div>
-  //   <div class="col-lg-4 col-sm-6"></div>
-  //   <div class="col-lg-4 col-sm-12"></div>
   render() {
+    console.warn = () => {};
     return (
       <div>
         <main className="container">

@@ -1,18 +1,20 @@
 import { Component } from "react";
 import httpService from "../services/httpService";
 import { Link } from "react-router-dom";
+import ClipBoardIcon from "./common/ClipBoardIcon";
 
 class Taxonomy_taxid extends Component {
   state = {
     myData: [],
+    showModal: false,
   };
 
   showModal = () => {
-    this.setState({ show: true });
+    this.setState({ showModal: true });
   };
 
   hideModal = () => {
-    this.setState({ show: false });
+    this.setState({ showModal: false });
   };
 
   async componentDidMount() {
@@ -26,17 +28,10 @@ class Taxonomy_taxid extends Component {
 
   render() {
     return (
-      <div class="row">
-        <div class="col-lg-6 col-sm-6">
-          {/* <button onClick={() => this.getInfo()}>Click me</button> */}
-          <h1>React Modal</h1>
-          <Modal show={this.state.show} handleClose={this.hideModal}>
-            <p>Modal</p>
-          </Modal>
-          <button type="button" onClick={this.showModal}>
-            Open
-          </button>
-          <table class="table">
+      <div className="row" style={{ marginTop: "20px" }}>
+        <div className="col-lg-1 col-sm-1"></div>
+        <div className="col-lg-10 col-sm-10">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">Tax_ID</th>
@@ -56,11 +51,16 @@ class Taxonomy_taxid extends Component {
                   <td>{row.embl_code}</td>
                   <td>{row.name_txt}</td>
                   <td>
-                    {" "}
-                    <Modal show={this.state.show} handleClose={this.hideModal}>
-                      <p>
-                        <td>{row.cde}</td>
-                      </p>
+                    <Modal
+                      show={this.state.showModal}
+                      handleClose={this.hideModal}
+                    >
+                      <div style={{ borderBottom: "1px solid black" }}>
+                        <h4>Genetic Code ID</h4>
+                        <p style={{ cursor: "pointer" }}>
+                          {row.cde} <ClipBoardIcon text={row.cde} />
+                        </p>
+                      </div>
                     </Modal>
                     <button type="button" onClick={this.showModal}>
                       {row.genetic_code_id}
@@ -75,6 +75,7 @@ class Taxonomy_taxid extends Component {
               ))}
             </tbody>
           </table>
+          <div className="col-lg-1 col-sm-1"></div>
         </div>
       </div>
     );
@@ -82,13 +83,15 @@ class Taxonomy_taxid extends Component {
 }
 
 const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
+  const showHideClassName = show
+    ? "modal display-block text-center"
+    : "modal display-none";
 
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
         {children}
-        <button type="button" onClick={handleClose}>
+        <button type="button" onClick={handleClose} style={{ margin: "20px" }}>
           Close
         </button>
       </section>
