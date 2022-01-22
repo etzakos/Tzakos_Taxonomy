@@ -24,6 +24,25 @@ app.get("/", async (req, res) => {
   });
 });
 
+app.post("/filter", async (req, res) => {
+  res.send(req.body);
+  // let sql = `SELECT
+  // n.tax_id,
+  // n.parent_tax_id,
+  // n.rank,
+  // a.name_txt
+  // From taxonomy.nodes as n
+  // INNER JOIN taxonomy.tax_names as a
+  // ON a.tax_id=n.tax_id
+  // WHERE a.name_class= 'scientific name' limit 50`;
+  // pool.query(sql, (error, results, fields) => {
+  //   if (error) {
+  //     return console.error(error.message);
+  //   }
+  //   res.send(results);
+  // });
+});
+
 app.get("/tax_id/:id", (req, res) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM taxonomy.nodes where tax_id = ${id}`;

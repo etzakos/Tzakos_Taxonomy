@@ -59,7 +59,7 @@ class Filter extends Component {
 
   Search = async () => {
     const { data } = await httpService.get("http://localhost:3001");
-    // console.log(data);
+    console.log(data);
     this.setState({ tableData: data });
   };
 
@@ -115,7 +115,7 @@ class Filter extends Component {
         <button onClick={() => this.Search()}>Search</button>
         <br />
         <br />
-        <Table tableDataInput={tableData} />
+        <Table tableData={tableData} />
       </div>
     );
   }

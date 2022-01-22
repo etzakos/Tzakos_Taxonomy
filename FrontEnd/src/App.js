@@ -7,7 +7,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import NotFound from "./components/Not_found";
 import Homepage from "./components/Homepage";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import Filter from "./components/Filter";
 
 class App extends Component {
@@ -27,7 +27,7 @@ class App extends Component {
             <Redirect from="/" exact to="/homepage" />
             <Redirect to="/not-found" />
           </Switch>
-          <Footer />
+          {/* <Footer /> */}
         </main>
       </div>
     );
