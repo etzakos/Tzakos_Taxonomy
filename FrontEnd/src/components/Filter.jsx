@@ -57,8 +57,16 @@ class Filter extends Component {
     this.setState({ filterItems: copyOfFilterItems });
   };
 
+  SearchAll = async () => {
+    const { data } = await httpService.get("http://localhost:3001/");
+    this.setState({ tableData: data });
+  };
+
   Search = async () => {
-    const { data } = await httpService.get("http://localhost:3001");
+    const { data } = await httpService.post(
+      "http://localhost:3001/filter_data",
+      this.state.filterItems
+    );
     console.log(data);
     this.setState({ tableData: data });
   };
@@ -112,6 +120,7 @@ class Filter extends Component {
         })}
         <br />
         <br />
+        <button onClick={() => this.SearchAll()}>Get All</button>
         <button onClick={() => this.Search()}>Search</button>
         <br />
         <br />
