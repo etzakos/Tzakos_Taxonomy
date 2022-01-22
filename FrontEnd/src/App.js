@@ -8,6 +8,7 @@ import NotFound from "./components/Not_found";
 import Homepage from "./components/Homepage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Filter from "./components/Filter";
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
           <Switch>
             <Route path="/taxonomy_parent/:id" component={Taxonomy_parent} />
             <Route path="/taxonomy" component={Taxonomy} />
+            <Route path="/search" component={Filter} />
             <Route path="/taxonomy_taxid/:id" component={Taxonomy_taxid} />
             <Route path="/homepage" component={Homepage} />
             <Route path="/not-found" component={NotFound} />

@@ -17,7 +17,7 @@ class Homepage extends React.Component {
                   too short so folks don’t simply skip over it entirely.
                 </p>
                 <p>
-                  <Link to="/taxonomy" className="btn btn-primary my-2">
+                  <Link to="/search" className="btn btn-primary my-2">
                     Go to Taxonomy
                   </Link>
                 </p>
