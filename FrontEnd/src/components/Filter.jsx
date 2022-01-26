@@ -5,8 +5,8 @@ import httpService from "../services/httpService";
 class Filter extends Component {
   state = {
     tableData: [],
-    availableTerms: [{ "Tax ID": "tax_id" }, { "Tax Name": "name_txt" }],
-    filterItems: [{ tax_id: "" }],
+    availableTerms: [{ "Tax ID": "tax_id" }, { "Scientific Name": "name_txt" }],
+    filterItems: [{ field: ["tax_id", ""] }],
   };
 
   updateSearchKey = (event, item) => {
@@ -16,7 +16,19 @@ class Filter extends Component {
     const copyOfFilterItems = filterItems;
     const indexOfItemFound = filterItems.findIndex((i) => i === item);
 
-    copyOfFilterItems[indexOfItemFound] = { [selectedValue]: "" };
+    copyOfFilterItems[indexOfItemFound]["field"][0] = selectedValue;
+
+    this.setState({ filterItems: copyOfFilterItems });
+  };
+
+  updateBolleanKey = (event, item) => {
+    const { filterItems } = this.state;
+    const selectedValue = event.target.value;
+
+    const copyOfFilterItems = filterItems;
+    const indexOfItemFound = filterItems.findIndex((i) => i === item);
+
+    copyOfFilterItems[indexOfItemFound]["boolean"] = selectedValue;
 
     this.setState({ filterItems: copyOfFilterItems });
   };
@@ -25,7 +37,7 @@ class Filter extends Component {
     const { filterItems } = this.state;
     const copyOfFilterItems = filterItems;
 
-    copyOfFilterItems.push({ tax_id: "" });
+    copyOfFilterItems.push({ boolean: "and", field: ["tax_id", ""] });
 
     this.setState({ filterItems: copyOfFilterItems });
   };
@@ -35,14 +47,16 @@ class Filter extends Component {
     const copyOfItems = filterItems;
     const indexOfItemFound = copyOfItems.findIndex((i) => i === item);
     copyOfItems.splice(indexOfItemFound, 1);
-
     this.setState({ filterItems: copyOfItems });
   };
 
   getCurrentValue = (item) => {
     const { filterItems } = this.state;
     const indexOfItemFound = filterItems.findIndex((i) => i === item);
-    const currentKeyTerm = Object.keys(filterItems[indexOfItemFound])[0];
+    // filterItems: [{ field: ["tax_id", ""] }, { boolean: "or" field: ["tax_id", ""] }],
+    const currentKeyTerm = Object.keys(
+      filterItems[indexOfItemFound]["field"]
+    )[1];
     return this.state.filterItems[indexOfItemFound][currentKeyTerm];
   };
 
@@ -51,8 +65,8 @@ class Filter extends Component {
     const copyOfFilterItems = filterItems;
     const indexOfItemFound = filterItems.findIndex((i) => i === item);
 
-    const currentKeyTerm = Object.keys(copyOfFilterItems[indexOfItemFound]);
-    copyOfFilterItems[indexOfItemFound] = { [currentKeyTerm]: e.target.value };
+    // const currentKeyTerm = Object.keys(copyOfFilterItems[indexOfItemFound]);
+    copyOfFilterItems[indexOfItemFound]["field"][1] = e.target.value;
 
     this.setState({ filterItems: copyOfFilterItems });
   };
@@ -71,6 +85,12 @@ class Filter extends Component {
     this.setState({ tableData: data });
   };
 
+  myStyle = (i) => {
+    if (i === 0) {
+      return { marginLeft: "52px" };
+    }
+  };
+
   render() {
     const { availableTerms, filterItems, tableData } = this.state;
 
@@ -80,13 +100,30 @@ class Filter extends Component {
         <br />
         {filterItems.map((item, i) => {
           return (
-            <div key={i}>
+            <div key={i} style={this.myStyle(i)}>
+              {(() => {
+                if (i > 0) {
+                  return (
+                    <select
+                      name="boolean"
+                      id="boolean"
+                      onChange={(e) => this.updateBolleanKey(e, item)}
+                    >
+                      <option value="and">AND</option>
+                      <option value="or">OR</option>
+                    </select>
+                  );
+                }
+              })()}
               <select
-                name="cars"
-                id="cars"
+                name="field"
+                id="field"
+                style={{ margin: "10px" }}
                 onChange={(e) => this.updateSearchKey(e, item)}
               >
+                {/* availableTerms: , */}
                 {availableTerms.map((term, j) => {
+                  // console.log("129", term[Object.keys(term)[0]]);
                   return (
                     <option key={j} value={term[Object.keys(term)[0]]}>
                       {Object.keys(term)[0]}
@@ -102,12 +139,20 @@ class Filter extends Component {
               {(() => {
                 if (i === 0) {
                   return (
-                    <button onClick={() => this.addSearchItem()}>+</button>
+                    <button
+                      style={{ margin: "10px" }}
+                      onClick={() => this.addSearchItem()}
+                    >
+                      +
+                    </button>
                   );
                 } else {
                   return (
                     <React.Fragment>
-                      <button onClick={() => this.removeSearchItem(item)}>
+                      <button
+                        style={{ margin: "10px" }}
+                        onClick={() => this.removeSearchItem(item)}
+                      >
                         -
                       </button>
                       <button onClick={() => this.addSearchItem()}>+</button>
@@ -120,8 +165,12 @@ class Filter extends Component {
         })}
         <br />
         <br />
-        <button onClick={() => this.SearchAll()}>Get All</button>
-        <button onClick={() => this.Search()}>Search</button>
+        <div style={{ marginLeft: "42px" }}>
+          <button style={{ margin: "10px" }} onClick={() => this.SearchAll()}>
+            Get Sample Data
+          </button>
+          <button onClick={() => this.Search()}>Search</button>
+        </div>
         <br />
         <br />
         <Table tableData={tableData} />

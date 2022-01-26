@@ -13,8 +13,8 @@ app.get("/", async (req, res) => {
   n.parent_tax_id,
   n.rank,
   a.name_txt
-  From taxonomy.nodes as n
-  INNER JOIN taxonomy.tax_names as a
+  From nodes as n
+  INNER JOIN tax_names as a
   ON a.tax_id=n.tax_id
   WHERE a.name_class= 'scientific name' limit 50`;
   pool.query(sql, (error, results, fields) => {
@@ -26,39 +26,52 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/filter_data", async (req, res) => {
+  // [
+  //   { field: [ 'tax_id', 'abc' ] },
+  //   { boolean: 'or', field: [ 'name_txt', 'def' ] }
+  // ]
   const filter = req.body;
-
   let sqlPredicate = "";
-
+  console.log(req.body);
   if (Array.isArray(filter)) {
     numOfItems = filter.length;
-    console.log(numOfItems);
     count = 0;
     filter.forEach((item, index) => {
       count++;
-      key = Object.keys(item)[0];
-      if (key === "tax_id") {
+      let boolean = "";
+      let field = item["field"];
+      let column = field[0];
+      let value = field[1];
+
+      if (item["boolean"] !== undefined) {
+        boolean = item["boolean"];
+      }
+
+      if (column === "tax_id") {
         spec_key = "n.tax_id";
       } else {
-        spec_key = key;
+        spec_key = column;
       }
-      sqlPredicate += `${spec_key}='${item[key]}'`;
 
-      if (count <= numOfItems - 1) {
-        sqlPredicate += " AND ";
+      if (!boolean) {
+        sqlPredicate += `${spec_key} like '${value}%' `;
+      } else {
+        sqlPredicate += `${boolean} ${spec_key} like '${value}%'`;
       }
+
+      console.log(sqlPredicate);
     });
   }
-  console.log(sqlPredicate);
+  // console.log(sqlPredicate);
   let sql = `SELECT
   n.tax_id,
   n.parent_tax_id,
   n.rank,
   a.name_txt
-  From taxonomy.nodes as n
-  INNER JOIN taxonomy.tax_names as a
+  From nodes as n
+  INNER JOIN tax_names as a
   ON a.tax_id=n.tax_id
-  WHERE a.name_class= 'scientific name' AND ${sqlPredicate} limit 50`;
+  WHERE a.name_class= 'scientific name' AND ( ${sqlPredicate} )`;
   console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
@@ -70,15 +83,15 @@ app.post("/filter_data", async (req, res) => {
 
 app.get("/tax_id/:id", (req, res) => {
   let id = req.params.id;
-  // let sql = `SELECT * FROM taxonomy.nodes where tax_id = ${id}`;
+  // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
   let sql = `
   SELECT 
 n.tax_id,
 n.parent_tax_id,
 n.rank,
 a.name_txt
-From taxonomy.nodes as n
-INNER JOIN taxonomy.tax_names as a
+From nodes as n
+INNER JOIN tax_names as a
 ON a.tax_id=n.tax_id
 WHERE a.name_class= 'scientific name'
 AND n.tax_id = ${id};`;
@@ -93,11 +106,11 @@ AND n.tax_id = ${id};`;
 
 app.get("/taxonomy_taxid/:id", (req, res) => {
   let id = req.params.id;
-  // let sql = `SELECT * FROM taxonomy.nodes where tax_id = ${id}`;
-  let sql = `SELECT * From taxonomy.nodes 
-  INNER JOIN taxonomy.tax_names 
+  // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
+  let sql = `SELECT * From nodes 
+  INNER JOIN tax_names 
   ON tax_names.tax_id=nodes.tax_id 
-  INNER JOIN taxonomy.gencode
+  INNER JOIN gencode
   ON gencode.genetic_code_id=nodes.tax_id WHERE tax_names.tax_id = ${id} and name_class = 'scientific name'; `;
 
   pool.query(sql, (error, results, fields) => {
@@ -110,7 +123,7 @@ app.get("/taxonomy_taxid/:id", (req, res) => {
 
 app.get("/taxonomy_parent/:id", (req, res) => {
   let id = req.params.id;
-  let sql = `SELECT * FROM taxonomy.nodes where parent_tax_id = ${id}`;
+  let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;
 
   pool.query(sql, (error, results, fields) => {
     if (error) {
@@ -124,7 +137,7 @@ app.post("/tax_names/search_unique_name", (req, res) => {
   let unique_name = req.body.unique_name.toLowerCase();
 
   let sql = `SELECT * 
-              FROM taxonomy.tax_names 
+              FROM tax_names 
               where LOWER(unique_name) 
               like '${unique_name}%' 
               and name_class <> 'type material';`;

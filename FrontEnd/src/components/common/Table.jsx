@@ -32,9 +32,9 @@ class Table extends Component {
               <tr>
                 <th scope="col">Item</th>
                 <th scope="col">Tax_ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Parent Tax_ID</th>
+                <th scope="col">Scientific Name</th>
                 <th scope="col">Rank</th>
+                <th scope="col">Parent Tax_ID</th>
               </tr>
             </thead>
 
@@ -50,12 +50,13 @@ class Table extends Component {
                     </Link>
                   </td>
                   <td>{row.name_txt}</td>
+
+                  <td>{row.rank}</td>
                   <td>
                     <Link to={`/taxonomy_parent/${row.parent_tax_id}`}>
                       {row.parent_tax_id}
                     </Link>
                   </td>
-                  <td>{row.rank}</td>
                 </tr>
               ))}
             </tbody>

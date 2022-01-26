@@ -5,7 +5,7 @@ var pool = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "1qaz@WSX",
-  database: "taxonomy",
+  database: "Taxonomy_25Jan2022",
 });
 
 pool.getConnection(function (err) {
