@@ -3,11 +3,18 @@ import Table from "./common/Table";
 import httpService from "../services/httpService";
 
 class Filter extends Component {
-  state = {
-    tableData: [],
-    availableTerms: [{ "Tax ID": "tax_id" }, { "Scientific Name": "name_txt" }],
-    filterItems: [{ field: ["tax_id", ""] }],
-  };
+  constructor() {
+    super();
+
+    this.state = {
+      tableData: [],
+      availableTerms: [
+        { "Tax ID": "tax_id" },
+        { "Scientific Name": "name_txt" },
+      ],
+      filterItems: [{ field: ["tax_id", ""] }],
+    };
+  }
 
   updateSearchKey = (event, item) => {
     const { filterItems } = this.state;
@@ -47,13 +54,14 @@ class Filter extends Component {
     const copyOfItems = filterItems;
     const indexOfItemFound = copyOfItems.findIndex((i) => i === item);
     copyOfItems.splice(indexOfItemFound, 1);
+    console.log("copyOfItems", copyOfItems);
     this.setState({ filterItems: copyOfItems });
   };
 
   getCurrentValue = (item) => {
     const { filterItems } = this.state;
     const indexOfItemFound = filterItems.findIndex((i) => i === item);
-    // filterItems: [{ field: ["tax_id", ""] }, { boolean: "or" field: ["tax_id", ""] }],
+    console.log(indexOfItemFound);
     const currentKeyTerm = Object.keys(
       filterItems[indexOfItemFound]["field"]
     )[1];
@@ -93,7 +101,6 @@ class Filter extends Component {
 
   render() {
     const { availableTerms, filterItems, tableData } = this.state;
-
     return (
       <div>
         <br />
@@ -108,6 +115,7 @@ class Filter extends Component {
                       name="boolean"
                       id="boolean"
                       onChange={(e) => this.updateBolleanKey(e, item)}
+                      value={this.state.filterItems[i]["boolean"]}
                     >
                       <option value="and">AND</option>
                       <option value="or">OR</option>
@@ -133,7 +141,7 @@ class Filter extends Component {
               </select>
               <input
                 type="text"
-                value={this.getCurrentValue(item)}
+                value={this.state.filterItems[i].field[1]}
                 onChange={(e) => this.updateCurrentValue(e, item)}
               ></input>
               {(() => {
