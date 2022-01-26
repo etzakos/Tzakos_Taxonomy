@@ -12,7 +12,6 @@ class Taxonomy_parent extends Component {
     const { data } = await httpService.get(
       `http://localhost:3001/taxonomy_parent/${id}`
     );
-    console.log(data);
     this.setState({ myData: data });
   }
 

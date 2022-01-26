@@ -36,7 +36,6 @@ class Taxonomy extends Component {
     const { pageSize, currentPage, myData } = this.state;
 
     const pagedItems = paginate(myData, currentPage, pageSize);
-    console.log(pagedItems);
     return pagedItems;
   };
 
