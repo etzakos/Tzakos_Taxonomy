@@ -50,7 +50,7 @@ class Taxonomy_taxid extends Component {
             </thead>
             <tbody>
               {this.state.myData.map((row) => (
-                <tr key={row.tax_id}>
+                <tr key={row.id}>
                   <td>{row.tax_id}</td>
                   <td>{row.rank_id}</td>
                   <td>{row.embl_code}</td>
