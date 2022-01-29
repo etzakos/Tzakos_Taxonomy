@@ -117,6 +117,8 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
   let sql = `SELECT * From nodes 
     INNER JOIN tax_names 
     ON tax_names.tax_id=nodes.tax_id 
+    INNER JOIN gencode 
+    ON gencode.genetic_code_id=nodes.genetic_code_id 
     WHERE tax_names.tax_id = ${id}; `;
 
   console.log(sql);
