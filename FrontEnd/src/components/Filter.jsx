@@ -11,11 +11,13 @@ class Filter extends Component {
       availableTerms: [
         { "Tax ID": "tax_id" },
         { "Scientific Name": "name_txt" },
+        { Rank: "rank_id" },
       ],
       filterItems: [{ field: ["tax_id", ""] }],
     };
   }
-
+  // disabled={this.state.filterItems[0].field[1] ? "true" : ""}
+  // this.state.filterItems.field[1] ?
   updateSearchKey = (event, item) => {
     const { filterItems } = this.state;
     const selectedValue = event.target.value;
@@ -80,13 +82,13 @@ class Filter extends Component {
   };
 
   SearchAll = async () => {
-    const { data } = await httpService.get("http://localhost:3001/");
+    const { data } = await httpService.get("http://localhost:3001/api/");
     this.setState({ tableData: data });
   };
 
   Search = async () => {
     const { data } = await httpService.post(
-      "http://localhost:3001/filter_data",
+      "http://localhost:3001/api/filter_data",
       this.state.filterItems
     );
     console.log(data);
@@ -119,6 +121,7 @@ class Filter extends Component {
                     >
                       <option value="and">AND</option>
                       <option value="or">OR</option>
+                      <option value="and not">NOT</option>
                     </select>
                   );
                 }
@@ -177,11 +180,16 @@ class Filter extends Component {
           <button style={{ margin: "10px" }} onClick={() => this.SearchAll()}>
             Get Sample Data
           </button>
-          <button onClick={() => this.Search()}>Search</button>
+          <button
+            onClick={() => this.Search()}
+            disabled={this.state.filterItems[0].field[1] ? "" : "true"}
+          >
+            Search
+          </button>
         </div>
         <br />
-        <br />
-        <Table tableData={tableData} />
+
+        <Table tableData={tableData} numberOfResults={tableData.length} />
       </div>
     );
   }

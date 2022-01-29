@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import Pagination from "./Pagination";
 import { paginate } from "../utils/paginate";
 class Table extends Component {
-  state = {
-    myData: [],
-    currentPage: 1,
-    pageSize: 10,
-  };
+  constructor() {
+    super();
+    this.state = {
+      myData: [],
+      currentPage: 1,
+      pageSize: 10,
+      numberOfResults: "",
+    };
+  }
+
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
@@ -23,8 +28,13 @@ class Table extends Component {
     // const pagedData = this.getPagedData();
     const tableDataAll = this.props.tableData;
     const tableDataPage = this.getPagedData(tableDataAll);
+
+    if (!this.props.numberOfResults) {
+      return null;
+    }
     return (
       <React.Fragment>
+        <h4>Results found: {this.props.numberOfResults}</h4>
         <div className="col-lg-1 col-sm-1"></div>
         <div className="col-lg-10 col-sm-10">
           <table className="table">

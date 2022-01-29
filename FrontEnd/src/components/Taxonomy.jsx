@@ -17,7 +17,7 @@ class Taxonomy extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await httpService.get("http://localhost:3001");
+    const { data } = await httpService.get("http://localhost:3001/api/");
     this.setState({ myData: data });
   }
 

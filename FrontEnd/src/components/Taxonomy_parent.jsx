@@ -10,17 +10,15 @@ class Taxonomy_parent extends Component {
   async componentDidMount() {
     let id = this.props.match.params.id;
     const { data } = await httpService.get(
-      `http://localhost:3001/taxonomy_parent/${id}`
+      `http://localhost:3001/api/taxonomy_parent/${id}`
     );
     this.setState({ myData: data });
   }
 
   render() {
     return (
-      <div className="row">
+      <div class="row justify-content-center" style={{ padding: "50px" }}>
         <div className="col-lg-6 col-sm-6">
-          {/* <button onClick={() => this.getInfo()}>Click me</button> */}
-
           <table className="table">
             <thead>
               <tr>
@@ -32,8 +30,12 @@ class Taxonomy_parent extends Component {
             <tbody>
               {this.state.myData.map((row) => (
                 <tr key={row.tax_id}>
-                  <td>{row.tax_id}</td>
-                  <td>{row.rank}</td>
+                  <td>
+                    <Link to={`/taxonomy_taxid/${row.tax_id}`}>
+                      {row.tax_id}
+                    </Link>
+                  </td>
+                  <td>{row.rank_id}</td>
                   <td>
                     <Link to={`/taxonomy_parent/${row.parent_tax_id}`}>
                       {row.parent_tax_id}
