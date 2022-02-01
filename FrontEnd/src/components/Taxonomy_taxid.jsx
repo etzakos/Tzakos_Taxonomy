@@ -9,6 +9,7 @@ class Taxonomy_taxid extends Component {
     myData: [],
     showModal: false,
     scientificName: "",
+    lineAge: "",
   };
 
   showModal = () => {
@@ -26,7 +27,10 @@ class Taxonomy_taxid extends Component {
     );
     this.setState({ myData: data }, () => {
       const objectFound = _.find(data, { name_class: "scientific name" });
-      this.setState({ scientificName: objectFound.name_txt });
+      this.setState({
+        scientificName: objectFound.name_txt,
+        lineAge: objectFound.lineage,
+      });
     });
   }
 
@@ -44,6 +48,7 @@ class Taxonomy_taxid extends Component {
                 <th scope="col">Embl_Code</th>
                 <th scope="col">Name/Synonyms</th>
                 <th scope="col">Genetic_code_id</th>
+                <th scope="col">Genetic Name</th>
                 <th scope="col">Parent Tax_ID</th>
                 <th scope="col">Name Class</th>
               </tr>
@@ -71,6 +76,7 @@ class Taxonomy_taxid extends Component {
                       {row.genetic_code_id}
                     </button>
                   </td>
+                  <td>{row.name}</td>
                   <td>
                     <Link to={`/taxonomy_parent/${row.parent_tax_id}`}>
                       {row.parent_tax_id}
@@ -82,6 +88,10 @@ class Taxonomy_taxid extends Component {
             </tbody>
           </table>
           <div className="col-lg-1 col-sm-1"></div>
+          <h4>
+            <span style={{ color: "#ff0000" }}>Lineage: </span>
+            {this.state.lineAge}
+          </h4>
         </div>
       </div>
     );

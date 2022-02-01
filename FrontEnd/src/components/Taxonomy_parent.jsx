@@ -23,6 +23,7 @@ class Taxonomy_parent extends Component {
             <thead>
               <tr>
                 <th scope="col">Tax_ID</th>
+                <th scope="col">Scientific Name</th>
                 <th scope="col">Rank</th>
                 <th scope="col">Parent Tax_ID</th>
               </tr>
@@ -35,6 +36,7 @@ class Taxonomy_parent extends Component {
                       {row.tax_id}
                     </Link>
                   </td>
+                  <td>{row.name_txt}</td>
                   <td>{row.rank_id}</td>
                   <td>
                     <Link to={`/taxonomy_parent/${row.parent_tax_id}`}>
