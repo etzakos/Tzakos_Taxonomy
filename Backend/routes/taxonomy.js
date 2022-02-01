@@ -111,14 +111,16 @@ router.get("/tax_id/:id", (req, res) => {
   });
 });
 
-router.get("/taxonomy_taxid/:id", (req, res) => {
+router.get("/taxonomy_taxid/:id", (req, res, res2) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
   let sql = `SELECT * From nodes 
     INNER JOIN tax_names 
     ON tax_names.tax_id=nodes.tax_id 
     INNER JOIN gencode 
-    ON gencode.genetic_code_id=nodes.genetic_code_id 
+    ON gencode.genetic_code_id=nodes.genetic_code_id
+    INNER JOIN Fullnamelineage 
+    ON Fullnamelineage.tax_id=nodes.tax_id
     WHERE tax_names.tax_id = ${id}; `;
 
   console.log(sql);

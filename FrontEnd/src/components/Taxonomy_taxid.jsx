@@ -26,7 +26,8 @@ class Taxonomy_taxid extends Component {
     );
     this.setState({ myData: data }, () => {
       const objectFound = _.find(data, { name_class: "scientific name" });
-      this.setState({ scientificName: objectFound.name_txt });
+      console.log("Data", this.state.myData);
+      //this.setState({ scientificName: objectFound[0].name_txt });
     });
   }
 
@@ -36,6 +37,17 @@ class Taxonomy_taxid extends Component {
         <div className="col-lg-1 col-sm-1"></div>
         <div className="col-lg-10 col-sm-10">
           <h4>Scientific Name: {this.state.scientificName}</h4>
+          <div className="py-5 text-center">
+            <h2>
+              <span style={{ color: "#3f33ff" }}>Scientific Name</span>:{" "}
+              {this.state.scientificName}
+            </h2>
+          </div>
+          <label>
+            Name:
+            <input type="text" name="name" />
+          </label>
+
           <table className="table">
             <thead>
               <tr>
@@ -82,6 +94,10 @@ class Taxonomy_taxid extends Component {
             </tbody>
           </table>
           <div className="col-lg-1 col-sm-1"></div>
+          <h4>
+            <span style={{ color: "#ff0000" }}>Lineage:</span>Lineage:{" "}
+            {this.state.scientificName}
+          </h4>
         </div>
       </div>
     );
