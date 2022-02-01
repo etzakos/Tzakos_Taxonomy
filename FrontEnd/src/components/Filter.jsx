@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import Table from "./common/Table";
 import httpService from "../services/httpService";
+import { Spin } from "antd";
 
 class Filter extends Component {
   constructor() {
     super();
 
     this.state = {
+      isFetching: false,
       tableData: [],
       availableTerms: [
         { "Tax ID": "tax_id" },
-        { "Scientific Name": "name_txt" },
-        { Rank: "rank_id" },
+        { Name: "lower_name_txt" },
+        { "Rank:": "rank_id" },
       ],
       filterItems: [{ field: ["tax_id", ""] }],
     };
   }
-  // disabled={this.state.filterItems[0].field[1] ? "true" : ""}
-  // this.state.filterItems.field[1] ?
+
   updateSearchKey = (event, item) => {
     const { filterItems } = this.state;
     const selectedValue = event.target.value;
@@ -49,6 +50,8 @@ class Filter extends Component {
     copyOfFilterItems.push({ boolean: "and", field: ["tax_id", ""] });
 
     this.setState({ filterItems: copyOfFilterItems });
+
+    console.log("Test");
   };
 
   removeSearchItem = (item) => {
@@ -87,12 +90,16 @@ class Filter extends Component {
   };
 
   Search = async () => {
+    this.setState({ isFetching: true });
     const { data } = await httpService.post(
       "http://localhost:3001/api/filter_data",
       this.state.filterItems
     );
-    console.log(data);
     this.setState({ tableData: data });
+
+    setTimeout(() => {
+      this.setState({ isFetching: false });
+    }, 500);
   };
 
   myStyle = (i) => {
@@ -182,14 +189,25 @@ class Filter extends Component {
           </button>
           <button
             onClick={() => this.Search()}
-            disabled={this.state.filterItems[0].field[1] ? "" : "true"}
+            // disabled={this.state.filterItems[0].field[1] ? "" : "true"}
+            disabled={this.state.filterItems[0].field[1] ? "" : "1"}
           >
             Search
           </button>
         </div>
         <br />
 
-        <Table tableData={tableData} numberOfResults={tableData.length} />
+        {this.state.isFetching ? (
+          <div className="d-flex align-items-center justify-content-center">
+            <Spin
+              // indicator={getIndicatorIcon}
+              size="large"
+            ></Spin>
+            <span className="p-3 text-center">Please wait...</span>
+          </div>
+        ) : (
+          <Table tableData={tableData} numberOfResults={tableData.length} />
+        )}
       </div>
     );
   }

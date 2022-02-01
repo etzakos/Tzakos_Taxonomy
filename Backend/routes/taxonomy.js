@@ -12,6 +12,8 @@ router.get("/", (req, res) => {
     INNER JOIN tax_names as a
     ON a.tax_id=n.tax_id
     WHERE a.name_class= 'scientific name' limit 50`;
+
+  console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
       return console.error(error.message);
@@ -35,8 +37,9 @@ router.post("/filter_data", (req, res) => {
       count++;
       let boolean = "";
       let field = item["field"];
+
       let column = field[0];
-      let value = field[1];
+      let value = String(field[1]).toLocaleLowerCase();
 
       if (item["boolean"] !== undefined) {
         boolean = item["boolean"];
@@ -65,8 +68,6 @@ router.post("/filter_data", (req, res) => {
           sqlPredicate += `${boolean} \`${spec_key}\` like '${value}%'`;
         }
       }
-
-      console.log(sqlPredicate);
     });
   }
   // console.log(sqlPredicate);
@@ -78,7 +79,7 @@ router.post("/filter_data", (req, res) => {
     From nodes as n
     INNER JOIN tax_names as a
     ON a.tax_id=n.tax_id
-    WHERE a.name_class= 'scientific name' AND ( ${sqlPredicate} )`;
+    WHERE ( ${sqlPredicate} )`;
   console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
@@ -103,6 +104,7 @@ router.get("/tax_id/:id", (req, res) => {
   WHERE a.name_class= 'scientific name'
   AND n.tax_id = ${id};`;
 
+  console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
       return console.error(error.message);
@@ -114,12 +116,25 @@ router.get("/tax_id/:id", (req, res) => {
 router.get("/taxonomy_taxid/:id", (req, res) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
-  let sql = `SELECT * From nodes 
-    INNER JOIN tax_names 
-    ON tax_names.tax_id=nodes.tax_id 
-    INNER JOIN gencode 
-    ON gencode.genetic_code_id=nodes.genetic_code_id 
-    WHERE tax_names.tax_id = ${id}; `;
+  let sql = `SELECT n.tax_id,
+  n.rank_id,
+  n.embl_code,
+  t.name_txt,
+  g.genetic_code_id,
+  g.name,
+  n.parent_tax_id,
+  g.cde,
+  t.id,
+  t.name_class,
+  f.lineage
+   From nodes as n
+      INNER JOIN tax_names as t
+      ON t.tax_id = n.tax_id 
+      INNER JOIN gencode as g
+      ON g.genetic_code_id = n.genetic_code_id 
+      INNER JOIN Fullnamelineage as f
+      ON f.tax_id = n.tax_id
+      WHERE t.tax_id = ${id}`;
 
   console.log(sql);
   pool.query(sql, (error, results, fields) => {
@@ -132,8 +147,20 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
 
 router.get("/taxonomy_parent/:id", (req, res) => {
   let id = req.params.id;
-  let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;
+  // let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;
+  let sql = `
+  SELECT 
+  n.tax_id,
+  t.name_txt,
+  n.rank_id,
+  n.parent_tax_id
+  FROM nodes as n
+  INNER JOIN tax_names as t
+  ON n.tax_id = t.tax_id
+  where parent_tax_id = ${id}
+  AND t.name_class = 'scientific name'`;
 
+  console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
       return console.error(error.message);
@@ -150,7 +177,7 @@ router.post("/tax_names/search_unique_name", (req, res) => {
                 where LOWER(unique_name) 
                 like '${unique_name}%' 
                 and name_class <> 'type material';`;
-
+  console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
       return console.error(error.message);

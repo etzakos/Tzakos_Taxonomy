@@ -4,8 +4,8 @@ var pool = mysql.createPool({
   connectionLimit: 5,
   host: "localhost",
   user: "root",
-  password: "root",
-  database: "taxonomy_new",
+  password: "1qaz@WSX",
+  database: "Taxonomy_25Jan2022",
 });
 
 pool.getConnection(function (err) {
