@@ -3,6 +3,7 @@ import httpService from "../services/httpService";
 import { Link } from "react-router-dom";
 import ClipBoardIcon from "./common/ClipBoardIcon";
 import _ from "lodash";
+import { Button, Menu, Dropdown } from "antd";
 
 class Taxonomy_taxid extends Component {
   state = {
@@ -83,6 +84,12 @@ class Taxonomy_taxid extends Component {
                     </Link>
                   </td>
                   <td>{row.name_class}</td>
+                  <td>
+                    <Button type="primary">update</Button>
+                  </td>
+                  <td>
+                    <Button type="danger">delete</Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
