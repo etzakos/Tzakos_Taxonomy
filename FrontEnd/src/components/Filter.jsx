@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Table from "./common/Table";
+import equal from "fast-deep-equal";
 import httpService from "../services/httpService";
 import { Spin } from "antd";
 
@@ -12,11 +13,49 @@ class Filter extends Component {
       tableData: [],
       availableTerms: [
         { "Tax ID": "tax_id" },
-        { Name: "lower_name_txt" },
-        { "Rank:": "rank_id" },
+        { "Scientific Name": "lower_name_txt" },
       ],
       filterItems: [{ field: ["tax_id", ""] }],
+
+      searched: false,
+
+      searchButtonDisabled: true,
     };
+  }
+
+  componentDidMount() {
+    const tableData = localStorage.getItem("filterPage_tableData");
+    if (tableData && tableData.length > 0) {
+      this.setState({ tableData: JSON.parse(tableData) }, () => {
+        this.checkIfSearchButtonShouldBeDisabled();
+      });
+    }
+
+    const filterTerms = localStorage.getItem("filterTerms");
+    if (filterTerms && filterTerms.length > 0) {
+      this.setState({ filterItems: JSON.parse(filterTerms) });
+    }
+  }
+
+  updateLocalStorage = () => {
+    localStorage.setItem(
+      "filterPage_tableData",
+      JSON.stringify(this.state.tableData)
+    );
+
+    localStorage.setItem("filterTerms", JSON.stringify(this.state.filterItems));
+  };
+
+  componentDidUpdate(prevState) {
+    if (
+      !equal(this.state.filterItems, prevState.filterItems) ||
+      !equal(this.state.tableData, prevState.tableData)
+    ) {
+      // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+      // this.setState({ myDateRange: this.props.dateRange });
+      // this.checkIfSearchButtonShouldBeDisabled();
+      this.updateLocalStorage();
+    }
   }
 
   updateSearchKey = (event, item) => {
@@ -28,6 +67,7 @@ class Filter extends Component {
 
     copyOfFilterItems[indexOfItemFound]["field"][0] = selectedValue;
 
+    console.log("selectedValue", selectedValue);
     this.setState({ filterItems: copyOfFilterItems });
   };
 
@@ -49,9 +89,8 @@ class Filter extends Component {
 
     copyOfFilterItems.push({ boolean: "and", field: ["tax_id", ""] });
 
+    this.checkIfSearchButtonShouldBeDisabled();
     this.setState({ filterItems: copyOfFilterItems });
-
-    console.log("Test");
   };
 
   removeSearchItem = (item) => {
@@ -80,13 +119,23 @@ class Filter extends Component {
 
     // const currentKeyTerm = Object.keys(copyOfFilterItems[indexOfItemFound]);
     copyOfFilterItems[indexOfItemFound]["field"][1] = e.target.value;
-
+    this.checkIfSearchButtonShouldBeDisabled();
     this.setState({ filterItems: copyOfFilterItems });
   };
 
+  checkIfSearchButtonShouldBeDisabled() {
+    let buttonShouldBeDisabled = false;
+    for (const element of this.state.filterItems) {
+      if (!element["field"][1]) {
+        buttonShouldBeDisabled = true;
+      }
+    }
+    this.setState({ searchButtonDisabled: buttonShouldBeDisabled });
+  }
+
   SearchAll = async () => {
     const { data } = await httpService.get("http://localhost:3001/api/");
-    this.setState({ tableData: data });
+    this.setState({ tableData: data, searched: true });
   };
 
   Search = async () => {
@@ -95,7 +144,7 @@ class Filter extends Component {
       "http://localhost:3001/api/filter_data",
       this.state.filterItems
     );
-    this.setState({ tableData: data });
+    this.setState({ tableData: data, searched: true });
 
     setTimeout(() => {
       this.setState({ isFetching: false });
@@ -139,11 +188,17 @@ class Filter extends Component {
                 style={{ margin: "10px" }}
                 onChange={(e) => this.updateSearchKey(e, item)}
               >
-                {/* availableTerms: , */}
                 {availableTerms.map((term, j) => {
-                  // console.log("129", term[Object.keys(term)[0]]);
                   return (
-                    <option key={j} value={term[Object.keys(term)[0]]}>
+                    <option
+                      key={j}
+                      value={term[Object.keys(term)[0]]}
+                      selected={
+                        Object.keys(term)[0] === filterItems[i].field[0]
+                          ? "selected"
+                          : ""
+                      }
+                    >
                       {Object.keys(term)[0]}
                     </option>
                   );
@@ -190,7 +245,7 @@ class Filter extends Component {
           <button
             onClick={() => this.Search()}
             // disabled={this.state.filterItems[0].field[1] ? "" : "true"}
-            disabled={this.state.filterItems[0].field[1] ? "" : "1"}
+            disabled={this.state.searchButtonDisabled}
           >
             Search
           </button>
@@ -205,6 +260,8 @@ class Filter extends Component {
             ></Spin>
             <span className="p-3 text-center">Please wait...</span>
           </div>
+        ) : this.state.searched && this.state.tableData.length === 0 ? (
+          <h4>No Data Found</h4>
         ) : (
           <Table tableData={tableData} numberOfResults={tableData.length} />
         )}

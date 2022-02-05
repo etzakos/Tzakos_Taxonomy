@@ -23,65 +23,70 @@ router.get("/", (req, res) => {
 });
 
 router.post("/filter_data", (req, res) => {
+  const filter = req.body;
+
+  /* filter contains a datastuctrure similar to the below:
   // [
   //   { field: [ 'tax_id', 'abc' ] },
   //   { boolean: 'or', field: [ 'name_txt', 'def' ] }
   // ]
-  const filter = req.body;
+  */
   let sqlPredicate = "";
-  console.log(req.body);
+  allPredicateValues = [];
+
   if (Array.isArray(filter)) {
-    numOfItems = filter.length;
-    count = 0;
     filter.forEach((item, index) => {
-      count++;
+      let key = "";
+      let value = "";
       let boolean = "";
-      let field = item["field"];
+      let valueIsArithmetic = false;
 
-      let column = field[0];
-      let value = String(field[1]).toLocaleLowerCase();
+      if (item["boolean"] !== undefined)
+        boolean = item["boolean"]; /* e.g. boolean='or' or boolean="and" */
 
-      if (item["boolean"] !== undefined) {
-        boolean = item["boolean"];
+      key = item["field"][0]; /* e.g. tax_id */
+      spec_key = key;
+      value = String(
+        item["field"][1]
+      ).toLowerCase(); /* e.g. 5 or a lowercase string */
 
-        // if (boolean === "not") {
-        //   boolean = "and not";
-        // }
-      }
-
-      if (column === "tax_id") {
+      if (key === "tax_id") {
         spec_key = "n.`tax_id`";
-      } else {
-        spec_key = column;
+        valueIsArithmetic = true;
       }
 
       if (!boolean) {
-        if (spec_key === "n.`tax_id`") {
-          sqlPredicate += `${spec_key} = '${value}' `;
+        if (valueIsArithmetic) {
+          sqlPredicate += `${spec_key} = ? `;
+          allPredicateValues.push(value);
         } else {
-          sqlPredicate += `${spec_key} like '${value}%' `;
+          sqlPredicate += `${spec_key} like ?`;
+          allPredicateValues.push(value + "%");
         }
       } else {
-        if (spec_key === "n.`tax_id`") {
-          sqlPredicate += `${boolean} ${spec_key} = '${value}'`;
+        if (valueIsArithmetic) {
+          sqlPredicate += `${boolean} ${spec_key} = ?`;
+          allPredicateValues.push(value);
         } else {
-          sqlPredicate += `${boolean} \`${spec_key}\` like '${value}%'`;
+          sqlPredicate += `${boolean} ${spec_key} like ?`;
+          allPredicateValues.push(value + "%");
         }
       }
     });
   }
-  // console.log(sqlPredicate);
   let sql = `SELECT
     n.tax_id,
     n.parent_tax_id,
     n.rank_id,
     a.name_txt
-    From nodes as n
+    FROM nodes as n
     INNER JOIN tax_names as a
-    ON a.tax_id=n.tax_id
+    ON a.tax_id = n.tax_id
     WHERE ( ${sqlPredicate} )`;
   console.log(sql);
-  pool.query(sql, (error, results, fields) => {
+  console.log(allPredicateValues);
+
+  pool.query(sql, allPredicateValues, (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Pagination from "./Pagination";
+import Pagination from "./Pagination2";
 import { paginate } from "../utils/paginate";
 class Table extends Component {
   constructor() {
@@ -50,7 +50,7 @@ class Table extends Component {
 
             <tbody>
               {tableDataPage.map((row, i) => (
-                <tr key={row.tax_id}>
+                <tr key={i}>
                   <td>
                     {i + (this.state.currentPage - 1) * this.state.pageSize + 1}
                   </td>

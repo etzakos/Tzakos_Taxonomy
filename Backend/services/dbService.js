@@ -1,3 +1,4 @@
+const logger = require("./logging");
 const mysql = require("mysql2");
 
 var pool = mysql.createPool({
@@ -10,10 +11,9 @@ var pool = mysql.createPool({
 
 pool.getConnection(function (err) {
   if (err) {
-    return console.error("error: " + err.message);
+    throw new Error("ERROR: " + err.message + err);
   }
-
-  console.log("Connected to the MySQL server.");
+  logger.info("Connected to MySQL server...");
 });
 
 module.exports = pool;
