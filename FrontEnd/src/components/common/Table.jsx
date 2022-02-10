@@ -36,7 +36,7 @@ class Table extends Component {
       <React.Fragment>
         <h4>Results found: {this.props.numberOfResults}</h4>
         <div className="col-lg-1 col-sm-1"></div>
-        <div className="col-lg-10 col-sm-10">
+        <div className="col-lg-12 col-sm-12">
           <table className="table ">
             <thead>
               <tr>
@@ -50,7 +50,7 @@ class Table extends Component {
 
             <tbody>
               {tableDataPage.map((row, i) => (
-                <tr key={row.tax_id}>
+                <tr key={i}>
                   <td>
                     {i + (this.state.currentPage - 1) * this.state.pageSize + 1}
                   </td>

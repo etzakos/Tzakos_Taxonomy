@@ -17,8 +17,8 @@ class Taxonomy_parent extends Component {
 
   render() {
     return (
-      <div class="row justify-content-center" style={{ padding: "50px" }}>
-        <div className="col-lg-6 col-sm-6">
+      <div style={{ height: "100vw" }} className="bg-light mx-auto mt-4">
+        <div className="p-2 mx-auto text-center">
           <table className="table">
             <thead>
               <tr>
