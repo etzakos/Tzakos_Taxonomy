@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Pagination from "./Pagination2";
+import Pagination from "./Pagination";
 import { paginate } from "../utils/paginate";
 class Table extends Component {
   constructor() {
@@ -36,7 +36,7 @@ class Table extends Component {
       <React.Fragment>
         <h4>Results found: {this.props.numberOfResults}</h4>
         <div className="col-lg-1 col-sm-1"></div>
-        <div className="col-lg-10 col-sm-10">
+        <div className="col-lg-12 col-sm-12">
           <table className="table ">
             <thead>
               <tr>

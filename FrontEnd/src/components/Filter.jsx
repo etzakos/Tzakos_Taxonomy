@@ -157,114 +157,131 @@ class Filter extends Component {
     }
   };
 
+  clearAllFiltersAndResults = () => {
+    this.setState({
+      tableData: [],
+      filterItems: [{ field: ["tax_id", ""] }],
+      searched: false,
+    });
+    localStorage.clear();
+  };
+
   render() {
     const { availableTerms, filterItems, tableData } = this.state;
     return (
-      <div>
-        <br />
-        <br />
-        {filterItems.map((item, i) => {
-          return (
-            <div key={i} style={this.myStyle(i)}>
-              {(() => {
-                if (i > 0) {
-                  return (
-                    <select
-                      name="boolean"
-                      id="boolean"
-                      onChange={(e) => this.updateBolleanKey(e, item)}
-                      value={this.state.filterItems[i]["boolean"]}
-                    >
-                      <option value="and">AND</option>
-                      <option value="or">OR</option>
-                      <option value="and not">NOT</option>
-                    </select>
-                  );
-                }
-              })()}
-              <select
-                name="field"
-                id="field"
-                style={{ margin: "10px" }}
-                onChange={(e) => this.updateSearchKey(e, item)}
-              >
-                {availableTerms.map((term, j) => {
-                  return (
-                    <option
-                      key={j}
-                      value={term[Object.keys(term)[0]]}
-                      selected={
-                        Object.keys(term)[0] === filterItems[i].field[0]
-                          ? "selected"
-                          : ""
-                      }
-                    >
-                      {Object.keys(term)[0]}
-                    </option>
-                  );
-                })}
-              </select>
-              <input
-                type="text"
-                value={this.state.filterItems[i].field[1]}
-                onChange={(e) => this.updateCurrentValue(e, item)}
-              ></input>
-              {(() => {
-                if (i === 0) {
-                  return (
-                    <button
-                      style={{ margin: "10px" }}
-                      onClick={() => this.addSearchItem()}
-                    >
-                      +
-                    </button>
-                  );
-                } else {
-                  return (
-                    <React.Fragment>
+      <div style={{ height: "100vw" }} className="bg-light mx-auto mt-4">
+        <div className="p-2 mx-auto text-center">
+          {filterItems.map((item, i) => {
+            return (
+              <div key={i} style={this.myStyle(i)}>
+                {(() => {
+                  if (i > 0) {
+                    return (
+                      <select
+                        name="boolean"
+                        id="boolean"
+                        onChange={(e) => this.updateBolleanKey(e, item)}
+                        value={this.state.filterItems[i]["boolean"]}
+                      >
+                        <option value="and">AND</option>
+                        <option value="or">OR</option>
+                        <option value="and not">NOT</option>
+                      </select>
+                    );
+                  }
+                })()}
+                <select
+                  name="field"
+                  id="field"
+                  style={{ margin: "10px" }}
+                  onChange={(e) => this.updateSearchKey(e, item)}
+                  value={this.state.filterItems[i]["field"][0]}
+                >
+                  {availableTerms.map((term, j) => {
+                    return (
+                      <option
+                        key={j}
+                        value={term[Object.keys(term)[0]]}
+                        defaultValue={
+                          Object.keys(term)[0] === filterItems[i].field[0]
+                            ? "selected"
+                            : ""
+                        }
+                      >
+                        {Object.keys(term)[0]}
+                      </option>
+                    );
+                  })}
+                </select>
+                <input
+                  type="text"
+                  value={this.state.filterItems[i].field[1]}
+                  onChange={(e) => this.updateCurrentValue(e, item)}
+                ></input>
+                {(() => {
+                  if (i === 0) {
+                    return (
                       <button
                         style={{ margin: "10px" }}
-                        onClick={() => this.removeSearchItem(item)}
+                        onClick={() => this.addSearchItem()}
                       >
-                        -
+                        +
                       </button>
-                      <button onClick={() => this.addSearchItem()}>+</button>
-                    </React.Fragment>
-                  );
-                }
-              })()}
-            </div>
-          );
-        })}
-        <br />
-        <br />
-        <div style={{ marginLeft: "42px" }}>
-          <button style={{ margin: "10px" }} onClick={() => this.SearchAll()}>
-            Get Sample Data
-          </button>
-          <button
-            onClick={() => this.Search()}
-            // disabled={this.state.filterItems[0].field[1] ? "" : "true"}
-            disabled={this.state.searchButtonDisabled}
-          >
-            Search
-          </button>
-        </div>
-        <br />
-
-        {this.state.isFetching ? (
-          <div className="d-flex align-items-center justify-content-center">
-            <Spin
-              // indicator={getIndicatorIcon}
-              size="large"
-            ></Spin>
-            <span className="p-3 text-center">Please wait...</span>
+                    );
+                  } else {
+                    return (
+                      <React.Fragment>
+                        <button
+                          style={{ margin: "10px" }}
+                          onClick={() => this.removeSearchItem(item)}
+                        >
+                          -
+                        </button>
+                        <button onClick={() => this.addSearchItem()}>+</button>
+                      </React.Fragment>
+                    );
+                  }
+                })()}
+              </div>
+            );
+          })}
+          <div className="mt-4">
+            <button
+              className="btn btn-secondary mr-3"
+              onClick={() => this.SearchAll()}
+            >
+              Get Sample Data
+            </button>
+            <button
+              onClick={() => this.Search()}
+              disabled={this.state.searchButtonDisabled}
+              className="btn btn-primary mx-4"
+            >
+              Search
+            </button>
+            <button
+              onClick={() => this.clearAllFiltersAndResults()}
+              className="btn btn-info mx-4"
+            >
+              Clear
+            </button>
           </div>
-        ) : this.state.searched && this.state.tableData.length === 0 ? (
-          <h4>No Data Found</h4>
-        ) : (
-          <Table tableData={tableData} numberOfResults={tableData.length} />
-        )}
+          <div className="mt-4">
+            {this.state.isFetching ? (
+              <div className="d-flex align-items-center justify-content-center">
+                <Spin
+                  // indicator={getIndicatorIcon}
+                  size="large"
+                ></Spin>
+                <span className="p-3 text-center">Please wait...</span>
+              </div>
+            ) : this.state.searched && this.state.tableData.length === 0 ? (
+              <h4>No Data Found</h4>
+            ) : (
+              <Table tableData={tableData} numberOfResults={tableData.length} />
+            )}
+          </div>
+        </div>
       </div>
     );
   }

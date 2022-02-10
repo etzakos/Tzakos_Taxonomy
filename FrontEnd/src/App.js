@@ -16,7 +16,7 @@ class App extends Component {
     console.warn = () => {};
     return (
       <div>
-        <main className="container">
+        <main className="mx-auto w-70">
           <Header />
           <Switch>
             <Route path="/taxonomy_parent/:id" component={Taxonomy_parent} />

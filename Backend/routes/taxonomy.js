@@ -150,6 +150,23 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
   });
 });
 
+router.delete("/taxonomy_taxid/", (req, res) => {
+  const obj = req.body;
+
+  // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
+  let sql = `delete from tax_names where tax_id = ? and name_txt = ?;`;
+  // let sql = `delete from tax_names where tax_id = ${obj.tax_id} and name_txt = ${obj.name_txt};`;
+
+  console.log(sql);
+  console.log([obj.tax_id, obj.name_txt]);
+  pool.query(sql, [obj.tax_id, obj.name_txt], (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    res.send(results);
+  });
+});
+
 router.get("/taxonomy_parent/:id", (req, res) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;

@@ -1,59 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import _ from "lodash";
+import { Pagination } from "antd";
 
-const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
-  const pagesCount = Math.ceil(itemsCount / pageSize);
-  if (pagesCount === 1) return null;
-  const pages = _.range(1, pagesCount + 1);
+const TablePagination = ({
+  itemsCount,
+  pageSize,
+  currentPage,
+  onPageChange,
+}) => {
+  // itemsCount={tableDataAll.length}
+  //             pageSize={this.state.pageSize}
+  //             currentPage={this.state.currentPage}
+  //             onPageChange={this.handlePageChange}
 
-  const previousPage = () => {
-    onPageChange(currentPage - 1);
-  };
-  const nextPage = () => {
-    onPageChange(currentPage + 1);
-  };
   return (
-    <nav>
-      <ul className="pagination">
-        <li
-          key="previous"
-          className={currentPage === 1 ? "page-item disabled" : "page-item"}
-        >
-          <button className="page-link" onClick={() => previousPage()}>
-            Previous
-          </button>
-        </li>
-        {pages.map((page) => (
-          <li
-            key={page}
-            className={page === currentPage ? "page-item active" : "page-item"}
-          >
-            <button className="page-link" onClick={() => onPageChange(page)}>
-              {page}
-            </button>
-          </li>
-        ))}
-        <li
-          key="next"
-          className={
-            currentPage === pagesCount ? "page-item disabled" : "page-item"
-          }
-        >
-          <button className="page-link" onClick={() => nextPage()}>
-            Next
-          </button>
-        </li>
-      </ul>
-    </nav>
+    <Pagination
+      className="mt-5"
+      total={itemsCount}
+      pageSize={pageSize}
+      defaultCurrent={currentPage}
+      onChange={onPageChange}
+      showSizeChanger={false}
+    />
   );
 };
 
-Pagination.propTypes = {
-  itemsCount: PropTypes.number.isRequired,
-  pageSize: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-};
-
-export default Pagination;
+export default TablePagination;
