@@ -45,12 +45,9 @@ class Taxonomy_taxid extends Component {
   }
 
   handleDeletion = async (item) => {
-    const { data } = await httpService.delete(
-      `http://localhost:3001/api/taxonomy_taxid`,
-      {
-        data: item,
-      }
-    );
+    await httpService.delete(`http://localhost:3001/api/taxonomy_taxid`, {
+      data: item,
+    });
 
     let copyOfMyData = this.state.myData;
     let filtered = copyOfMyData.filter((i) => i !== item);
