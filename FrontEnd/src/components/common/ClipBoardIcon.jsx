@@ -5,18 +5,22 @@ import { FaClipboardCheck } from "react-icons/fa";
 import { message } from "antd";
 
 const ClipBoardIcon = (props) => {
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(props.clicked);
 
   return isClicked ? (
-    <FaClipboardCheck style={{ marginLeft: "20px" }} />
+    <FaClipboardCheck className="ml-3 bg-success" />
   ) : (
     <BsClipboardCheck
       onClick={() => {
         setIsClicked(true);
         message.success("Copied Successfully");
         navigator.clipboard.writeText(props.text);
+
+        setTimeout(() => {
+          setIsClicked(false);
+        }, 3000);
       }}
-      style={{ marginLeft: "20px" }}
+      className="ml-3"
     />
   );
 };

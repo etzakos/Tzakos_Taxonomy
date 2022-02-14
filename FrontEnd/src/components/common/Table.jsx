@@ -36,8 +36,8 @@ class Table extends Component {
       <React.Fragment>
         <h4>Results found: {this.props.numberOfResults}</h4>
         <div className="col-lg-1 col-sm-1"></div>
-        <div className="col-lg-10 col-sm-10">
-          <table className="table">
+        <div className="col-lg-12 col-sm-12">
+          <table className="table ">
             <thead>
               <tr>
                 <th scope="col">Item</th>
@@ -50,7 +50,7 @@ class Table extends Component {
 
             <tbody>
               {tableDataPage.map((row, i) => (
-                <tr key={row.tax_id}>
+                <tr key={i}>
                   <td>
                     {i + (this.state.currentPage - 1) * this.state.pageSize + 1}
                   </td>
@@ -61,7 +61,7 @@ class Table extends Component {
                   </td>
                   <td>{row.name_txt}</td>
 
-                  <td>{row.rank}</td>
+                  <td>{row.rank_id}</td>
                   <td>
                     <Link to={`/taxonomy_parent/${row.parent_tax_id}`}>
                       {row.parent_tax_id}

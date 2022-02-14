@@ -12,73 +12,7 @@ router.get("/", (req, res) => {
     INNER JOIN tax_names as a
     ON a.tax_id=n.tax_id
     WHERE a.name_class= 'scientific name' limit 50`;
-  pool.query(sql, (error, results, fields) => {
-    if (error) {
-      return console.error(error.message);
-    }
-    res.send(results);
-  });
-});
 
-router.post("/filter_data", (req, res) => {
-  // [
-  //   { field: [ 'tax_id', 'abc' ] },
-  //   { boolean: 'or', field: [ 'name_txt', 'def' ] }
-  // ]
-  const filter = req.body;
-  let sqlPredicate = "";
-  console.log(req.body);
-  if (Array.isArray(filter)) {
-    numOfItems = filter.length;
-    count = 0;
-    filter.forEach((item, index) => {
-      count++;
-      let boolean = "";
-      let field = item["field"];
-      let column = field[0];
-      let value = field[1];
-
-      if (item["boolean"] !== undefined) {
-        boolean = item["boolean"];
-
-        // if (boolean === "not") {
-        //   boolean = "and not";
-        // }
-      }
-
-      if (column === "tax_id") {
-        spec_key = "n.`tax_id`";
-      } else {
-        spec_key = column;
-      }
-
-      if (!boolean) {
-        if (spec_key === "n.`tax_id`") {
-          sqlPredicate += `${spec_key} = '${value}' `;
-        } else {
-          sqlPredicate += `${spec_key} like '${value}%' `;
-        }
-      } else {
-        if (spec_key === "n.`tax_id`") {
-          sqlPredicate += `${boolean} ${spec_key} = '${value}'`;
-        } else {
-          sqlPredicate += `${boolean} \`${spec_key}\` like '${value}%'`;
-        }
-      }
-
-      console.log(sqlPredicate);
-    });
-  }
-  // console.log(sqlPredicate);
-  let sql = `SELECT
-    n.tax_id,
-    n.parent_tax_id,
-    n.rank_id,
-    a.name_txt
-    From nodes as n
-    INNER JOIN tax_names as a
-    ON a.tax_id=n.tax_id
-    WHERE a.name_class= 'scientific name' AND ( ${sqlPredicate} )`;
   console.log(sql);
   pool.query(sql, (error, results, fields) => {
     if (error) {
@@ -88,9 +22,80 @@ router.post("/filter_data", (req, res) => {
   });
 });
 
+router.post("/filter_data", (req, res) => {
+  const filter = req.body;
+
+  /* filter contains a datastuctrure similar to the below:
+  // [
+  //   { field: [ 'tax_id', 'abc' ] },
+  //   { boolean: 'or', field: [ 'name_txt', 'def' ] }
+  // ]
+  */
+  let sqlPredicate = "";
+  allPredicateValues = [];
+
+  if (Array.isArray(filter)) {
+    filter.forEach((item, index) => {
+      let key = "";
+      let value = "";
+      let boolean = "";
+      let valueIsArithmetic = false;
+
+      if (item["boolean"] !== undefined)
+        boolean = item["boolean"]; /* e.g. boolean='or' or boolean="and" */
+
+      key = item["field"][0]; /* e.g. tax_id */
+      spec_key = key;
+      value = String(
+        item["field"][1]
+      ).toLowerCase(); /* e.g. 5 or a lowercase string */
+
+      if (key === "tax_id") {
+        spec_key = "n.`tax_id`";
+        valueIsArithmetic = true;
+      }
+
+      if (!boolean) {
+        if (valueIsArithmetic) {
+          sqlPredicate += `${spec_key} = ? `;
+          allPredicateValues.push(value);
+        } else {
+          sqlPredicate += `${spec_key} like ?`;
+          allPredicateValues.push(value + "%");
+        }
+      } else {
+        if (valueIsArithmetic) {
+          sqlPredicate += `${boolean} ${spec_key} = ?`;
+          allPredicateValues.push(value);
+        } else {
+          sqlPredicate += `${boolean} ${spec_key} like ?`;
+          allPredicateValues.push(value + "%");
+        }
+      }
+    });
+  }
+  let sql = `SELECT
+    n.tax_id,
+    n.parent_tax_id,
+    n.rank_id,
+    a.name_txt
+    FROM nodes as n
+    INNER JOIN tax_names as a
+    ON a.tax_id = n.tax_id
+    WHERE ( ${sqlPredicate} )`;
+  console.log(sql);
+  console.log(allPredicateValues);
+
+  pool.query(sql, allPredicateValues, (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    res.send(results);
+  });
+});
+
 router.get("/tax_id/:id", (req, res) => {
   let id = req.params.id;
-  // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
   let sql = `
     SELECT 
   n.tax_id,
@@ -101,9 +106,10 @@ router.get("/tax_id/:id", (req, res) => {
   INNER JOIN tax_names as a
   ON a.tax_id=n.tax_id
   WHERE a.name_class= 'scientific name'
-  AND n.tax_id = ${id};`;
+  AND n.tax_id = ?`;
 
-  pool.query(sql, (error, results, fields) => {
+  console.log(sql);
+  pool.query(sql, [id], (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }
@@ -114,15 +120,44 @@ router.get("/tax_id/:id", (req, res) => {
 router.get("/taxonomy_taxid/:id", (req, res) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
-  let sql = `SELECT * From nodes 
-    INNER JOIN tax_names 
-    ON tax_names.tax_id=nodes.tax_id 
-    INNER JOIN gencode 
-    ON gencode.genetic_code_id=nodes.genetic_code_id 
-    WHERE tax_names.tax_id = ${id}; `;
+  let sql = `SELECT n.tax_id,
+  n.rank_id,
+  n.embl_code,
+  t.name_txt,
+  g.genetic_code_id,
+  g.name,
+  n.parent_tax_id,
+  g.cde,
+  t.id,
+  t.name_class,
+  f.lineage
+   From nodes as n
+      INNER JOIN tax_names as t
+      ON t.tax_id = n.tax_id 
+      INNER JOIN gencode as g
+      ON g.genetic_code_id = n.genetic_code_id 
+      INNER JOIN Fullnamelineage as f
+      ON f.tax_id = n.tax_id
+      WHERE t.tax_id = ?`;
 
   console.log(sql);
-  pool.query(sql, (error, results, fields) => {
+  console.log(id);
+  pool.query(sql, [id], (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    res.send(results);
+  });
+});
+
+router.delete("/taxonomy_taxid/", (req, res) => {
+  const obj = req.body;
+
+  let sql = `delete from tax_names where tax_id = ? and name_txt = ?;`;
+
+  console.log(sql);
+  console.log([obj.tax_id, obj.name_txt]);
+  pool.query(sql, [obj.tax_id, obj.name_txt], (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }
@@ -132,26 +167,22 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
 
 router.get("/taxonomy_parent/:id", (req, res) => {
   let id = req.params.id;
-  let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;
+  // let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;
+  let sql = `
+  SELECT 
+  n.tax_id,
+  t.name_txt,
+  n.rank_id,
+  n.parent_tax_id
+  FROM nodes as n
+  INNER JOIN tax_names as t
+  ON n.tax_id = t.tax_id
+  where parent_tax_id = ?
+  AND t.name_class = 'scientific name'`;
 
-  pool.query(sql, (error, results, fields) => {
-    if (error) {
-      return console.error(error.message);
-    }
-    res.send(results);
-  });
-});
-
-router.post("/tax_names/search_unique_name", (req, res) => {
-  let unique_name = req.body.unique_name.toLowerCase();
-
-  let sql = `SELECT * 
-                FROM tax_names 
-                where LOWER(unique_name) 
-                like '${unique_name}%' 
-                and name_class <> 'type material';`;
-
-  pool.query(sql, (error, results, fields) => {
+  console.log(sql);
+  console.log(id);
+  pool.query(sql, [id], (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }

@@ -17,12 +17,13 @@ class Taxonomy_parent extends Component {
 
   render() {
     return (
-      <div class="row justify-content-center" style={{ padding: "50px" }}>
-        <div className="col-lg-6 col-sm-6">
+      <div style={{ height: "100vw" }} className="bg-light mx-auto mt-4">
+        <div className="p-2 mx-auto text-center">
           <table className="table">
             <thead>
               <tr>
                 <th scope="col">Tax_ID</th>
+                <th scope="col">Scientific Name</th>
                 <th scope="col">Rank</th>
                 <th scope="col">Parent Tax_ID</th>
               </tr>
@@ -35,6 +36,7 @@ class Taxonomy_parent extends Component {
                       {row.tax_id}
                     </Link>
                   </td>
+                  <td>{row.name_txt}</td>
                   <td>{row.rank_id}</td>
                   <td>
                     <Link to={`/taxonomy_parent/${row.parent_tax_id}`}>
