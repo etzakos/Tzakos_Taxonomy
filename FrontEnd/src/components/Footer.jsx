@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <footer className="fixed-bottom text-muted text-center mx-auto">
+    <footer className="text-muted text-center mx-auto">
       <div className="container">
         <p className="float-end mb-1">
           <Link to="#">Back to top</Link>

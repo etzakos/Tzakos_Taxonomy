@@ -9,9 +9,12 @@ class Taxonomy_taxid extends Component {
     myData: [],
     showModal: false,
     showModalDeletion: false,
+    showModalUpdate: false,
     scientificName: "",
     lineAge: "",
     modalDeletionRowData: {},
+    modalUpdateRowData: {},
+    modalUpdateSynonym: "",
   };
 
   showModal = () => {
@@ -26,8 +29,24 @@ class Taxonomy_taxid extends Component {
     this.setState({ modalDeletionRowData: row, showModalDeletion: true });
   };
 
-  hideModalDeletion = () => {
+  hideModalDeletion = (row) => {
     this.setState({ showModalDeletion: false });
+  };
+
+  showModalUpdate = (row) => {
+    this.setState({
+      modalUpdateRowData: row,
+      modalUpdateSynonym: row.name_txt,
+      showModalUpdate: true,
+    });
+  };
+
+  hideModalUpdate = (row) => {
+    this.setState({ showModalUpdate: false });
+  };
+
+  handleSynonymUpdate = (e) => {
+    this.setState({ modalUpdateSynonym: e.target.value });
   };
 
   async componentDidMount() {
@@ -55,6 +74,22 @@ class Taxonomy_taxid extends Component {
     this.setState({ myData: filtered, showModalDeletion: false });
   };
 
+  handleUpdate = async (item, newValue) => {
+    await httpService.patch(`http://localhost:3001/api/taxonomy_taxid`, {
+      data: [item, this.state.modalUpdateSynonym],
+    });
+
+    let copyOfMyData = this.state.myData;
+    let index = copyOfMyData.findIndex((i) => i === item);
+    copyOfMyData[index]["name_txt"] = this.state.modalUpdateSynonym;
+
+    this.setState({ myData: copyOfMyData, showModalUpdate: false });
+  };
+
+  setModalUpdateSynonym = (e) => {
+    this.setState({ modalUpdateSynonym: e.target.value });
+  };
+
   render() {
     return (
       <div className="bg-light mx-auto mt-4 p-2">
@@ -64,6 +99,15 @@ class Taxonomy_taxid extends Component {
           lineData={this.state.modalDeletionRowData}
           handleDeletion={this.handleDeletion}
         />
+        <ModalUpdate
+          show={this.state.showModalUpdate}
+          handleClose={this.hideModalUpdate}
+          lineData={this.state.modalUpdateRowData}
+          handleUpdate={this.handleUpdate}
+          modalUpdateSynonym={this.state.modalUpdateSynonym}
+          setModalUpdateSynonym={this.setModalUpdateSynonym}
+        />
+
         <h4 className="display-5">
           Scientific Name: {this.state.scientificName}
         </h4>
@@ -116,7 +160,12 @@ class Taxonomy_taxid extends Component {
                 </td>
                 <td>{row.name_class}</td>
                 <td>
-                  <button className="btn btn-primary">update</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => this.showModalUpdate(row)}
+                  >
+                    update
+                  </button>
                 </td>
                 <td>
                   {row.name_class === "scientific name" ? (
@@ -145,13 +194,13 @@ class Taxonomy_taxid extends Component {
 }
 
 const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show
+  const showHiddenClassName = show
     ? "modal display-block text-center opacity-100"
     : "modal display-none";
 
   return (
     <div
-      className={showHideClassName}
+      className={showHiddenClassName}
       style={{ background: "rgba(0, 0, 0, 0.03)" }}
     >
       <section className="modal-main">
@@ -165,13 +214,13 @@ const Modal = ({ handleClose, show, children }) => {
 };
 
 const ModalDeletion = ({ handleClose, handleDeletion, show, lineData }) => {
-  const showHideClassName = show
+  const showHiddenClassName = show
     ? "modal display-block text-center"
     : "modal display-none";
 
   return (
     <div
-      className={showHideClassName}
+      className={showHiddenClassName}
       style={{ background: "rgba(0, 0, 0, 0.1)" }}
     >
       <div className="modal-dialog" style={{ maxWidth: "60%" }}>
@@ -213,6 +262,61 @@ const ModalDeletion = ({ handleClose, handleDeletion, show, lineData }) => {
               onClick={handleClose}
             >
               No
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ModalUpdate = ({
+  handleClose,
+  handleUpdate,
+  show,
+  lineData,
+  modalUpdateSynonym,
+  setModalUpdateSynonym,
+}) => {
+  const showHiddenClassName = show
+    ? "modal display-block text-center"
+    : "modal display-none";
+
+  return (
+    <div
+      className={showHiddenClassName}
+      style={{ background: "rgba(0, 0, 0, 0.1)" }}
+    >
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Update Synonym</h5>
+            <button className="close" onClick={handleClose}>
+              &times;
+            </button>
+          </div>
+          <div className="modal-body">
+            <form>
+              <div className="form-group">
+                <label htmlFor="username">Synonym</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={modalUpdateSynonym}
+                  onChange={(e) => setModalUpdateSynonym(e)}
+                />
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer mx-auto">
+            <button
+              className="btn btn-primary mr-5"
+              onClick={() => handleUpdate(lineData)}
+            >
+              Update
+            </button>
+            <button className="btn btn-secondary" onClick={handleClose}>
+              Cancel
             </button>
           </div>
         </div>

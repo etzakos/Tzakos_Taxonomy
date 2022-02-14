@@ -165,6 +165,26 @@ router.delete("/taxonomy_taxid/", (req, res) => {
   });
 });
 
+router.patch("/taxonomy_taxid/", (req, res) => {
+  const obj = req.body;
+
+  let sql = `update tax_names set name_txt = ? where tax_id = ? and name_txt = ? LIMIT 1;`;
+
+  // console.log("obj", obj);
+  // console.log(sql);
+  // console.log([obj.data[0].name_txt, obj.data[0].tax_id, obj.data[1]]);
+  pool.query(
+    sql,
+    [obj.data[1], obj.data[0].tax_id, obj.data[0].name_txt],
+    (error, results, fields) => {
+      if (error) {
+        return console.error(error.message);
+      }
+      res.send(results);
+    }
+  );
+});
+
 router.get("/taxonomy_parent/:id", (req, res) => {
   let id = req.params.id;
   // let sql = `SELECT * FROM nodes where parent_tax_id = ${id}`;
