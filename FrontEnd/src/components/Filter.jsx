@@ -169,7 +169,7 @@ class Filter extends Component {
   render() {
     const { availableTerms, filterItems, tableData } = this.state;
     return (
-      <div style={{ height: "100vw" }} className="bg-light mx-auto mt-4">
+      <div className="bg-light mx-auto mt-4">
         <div className="p-2 mx-auto text-center">
           {filterItems.map((item, i) => {
             return (

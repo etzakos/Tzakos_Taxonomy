@@ -96,7 +96,6 @@ router.post("/filter_data", (req, res) => {
 
 router.get("/tax_id/:id", (req, res) => {
   let id = req.params.id;
-  // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
   let sql = `
     SELECT 
   n.tax_id,
@@ -107,10 +106,10 @@ router.get("/tax_id/:id", (req, res) => {
   INNER JOIN tax_names as a
   ON a.tax_id=n.tax_id
   WHERE a.name_class= 'scientific name'
-  AND n.tax_id = ${id};`;
+  AND n.tax_id = ?`;
 
   console.log(sql);
-  pool.query(sql, (error, results, fields) => {
+  pool.query(sql, [id], (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }
@@ -139,10 +138,11 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
       ON g.genetic_code_id = n.genetic_code_id 
       INNER JOIN Fullnamelineage as f
       ON f.tax_id = n.tax_id
-      WHERE t.tax_id = ${id}`;
+      WHERE t.tax_id = ?`;
 
   console.log(sql);
-  pool.query(sql, (error, results, fields) => {
+  console.log(id);
+  pool.query(sql, [id], (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }
@@ -153,9 +153,7 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
 router.delete("/taxonomy_taxid/", (req, res) => {
   const obj = req.body;
 
-  // let sql = `SELECT * FROM nodes where tax_id = ${id}`;
   let sql = `delete from tax_names where tax_id = ? and name_txt = ?;`;
-  // let sql = `delete from tax_names where tax_id = ${obj.tax_id} and name_txt = ${obj.name_txt};`;
 
   console.log(sql);
   console.log([obj.tax_id, obj.name_txt]);
@@ -179,28 +177,12 @@ router.get("/taxonomy_parent/:id", (req, res) => {
   FROM nodes as n
   INNER JOIN tax_names as t
   ON n.tax_id = t.tax_id
-  where parent_tax_id = ${id}
+  where parent_tax_id = ?
   AND t.name_class = 'scientific name'`;
 
   console.log(sql);
-  pool.query(sql, (error, results, fields) => {
-    if (error) {
-      return console.error(error.message);
-    }
-    res.send(results);
-  });
-});
-
-router.post("/tax_names/search_unique_name", (req, res) => {
-  let unique_name = req.body.unique_name.toLowerCase();
-
-  let sql = `SELECT * 
-                FROM tax_names 
-                where LOWER(unique_name) 
-                like '${unique_name}%' 
-                and name_class <> 'type material';`;
-  console.log(sql);
-  pool.query(sql, (error, results, fields) => {
+  console.log(id);
+  pool.query(sql, [id], (error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }

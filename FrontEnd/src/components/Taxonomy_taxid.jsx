@@ -45,21 +45,19 @@ class Taxonomy_taxid extends Component {
   }
 
   handleDeletion = async (item) => {
-    await httpService.delete(`http://localhost:3001/api/taxonomy_taxid`, {
-      data: item,
-    });
+    // await httpService.delete(`http://localhost:3001/api/taxonomy_taxid`, {
+    //   data: item,
+    // });
 
     let copyOfMyData = this.state.myData;
     let filtered = copyOfMyData.filter((i) => i !== item);
 
-    this.setState({ myData: filtered });
-
-    this.setState({ showModalDeletion: false });
+    this.setState({ myData: filtered, showModalDeletion: false });
   };
 
   render() {
     return (
-      <div style={{ height: "100vw" }} className="bg-light mx-auto mt-4 p-2">
+      <div className="bg-light mx-auto mt-4 p-2">
         <ModalDeletion
           show={this.state.showModalDeletion}
           handleClose={this.hideModalDeletion}
@@ -174,43 +172,51 @@ const ModalDeletion = ({ handleClose, handleDeletion, show, lineData }) => {
   return (
     <div
       className={showHideClassName}
-      style={{ background: "rgba(0, 0, 0, 0.03)" }}
+      style={{ background: "rgba(0, 0, 0, 0.1)" }}
     >
-      <section className="modal-main bg-light">
-        <h3>Are you sure you want to delete the below synonym ?</h3>
-        <div>
-          <table className="mx-auto">
-            <thead>
-              <tr>
-                <th>Tax_ID</th>
-                <th>Rank</th>
-                <th>Name/Synonym</th>
-                <th>Genetic Name</th>
-                <th>Parent Tax</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{lineData.tax_id}</td>
-                <td>{lineData.rank_id}</td>
-                <td className="text-danger">{lineData.name_txt}</td>
-                <td>{lineData.name}</td>
-                <td>{lineData.parent_tax_id}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <button
-            onClick={() => handleDeletion(lineData)}
-            className="btn btn-danger btn-lg m-5"
-          >
-            Yes
-          </button>
-          <button className="btn btn-primary btn-lg m-5" onClick={handleClose}>
-            No
-          </button>
+      <div className="modal-dialog" style={{ maxWidth: "60%" }}>
+        <div className="modal-content m-3">
+          <h3 className="m-3">
+            Are you sure you want to delete the below synonym ?
+          </h3>
+          <div>
+            <table className="table mx-auto">
+              <thead>
+                <tr>
+                  <th>Tax_ID</th>
+                  <th>Rank</th>
+                  <th>Name/Synonym</th>
+                  <th>Genetic Name</th>
+                  <th>Parent Tax</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{lineData.tax_id}</td>
+                  <td>{lineData.rank_id}</td>
+                  <td className="text-danger font-weight-bold">
+                    {lineData.name_txt}
+                  </td>
+                  <td>{lineData.name}</td>
+                  <td>{lineData.parent_tax_id}</td>
+                </tr>
+              </tbody>
+            </table>
+            <button
+              onClick={() => handleDeletion(lineData)}
+              className="btn btn-info btn-lg px-7 m-5"
+            >
+              Yes
+            </button>
+            <button
+              className="btn btn-primary btn-lg px-7 m-5"
+              onClick={handleClose}
+            >
+              No
+            </button>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
