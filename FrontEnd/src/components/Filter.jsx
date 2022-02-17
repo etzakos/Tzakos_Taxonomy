@@ -153,7 +153,7 @@ class Filter extends Component {
 
   myStyle = (i) => {
     if (i === 0) {
-      return { marginLeft: "52px" };
+      return { marginLeft: "31px" };
     }
   };
 

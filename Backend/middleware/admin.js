@@ -1,9 +1,15 @@
-
-module.exports = function (req, res, next) { 
+const jwt = require("jsonwebtoken");
+module.exports = function (req, res, next) {
   // 401 Unauthorized
-  // 403 Forbidden 
-  
-  if (!req.user.isAdmin) return res.status(403).send('Access denied.');
+  // 403 Forbidden
 
-  next();
-}
+  const token = req.headers["x-auth-token"];
+
+  // Get JWT Payload
+  const obj = jwt.decode(token);
+  const role = obj.role;
+
+  if (role === "RW") return next();
+
+  return res.status(403).send("Access denied");
+};
