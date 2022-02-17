@@ -1,3 +1,6 @@
+const auth = require("../middleware/auth");
+const Joi = require("joi");
+const admin = require("../middleware/admin");
 const express = require("express");
 const router = express.Router();
 const pool = require("../services/dbService");
@@ -150,8 +153,33 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
   });
 });
 
-router.delete("/taxonomy_taxid/", (req, res) => {
+router.delete("/taxonomy_taxid/", [auth, admin], (req, res) => {
   const obj = req.body;
+
+  const schema = Joi.object({
+    tax_id: Joi.string().required(),
+    name_txt: Joi.string().required(),
+  });
+
+  // schema options
+  const options = {
+    abortEarly: false, // don't include all errors
+    allowUnknown: true, // ignore unknown props
+    stripUnknown: true, // remove unknown props
+  };
+
+  // validate request body against schema
+  const { error, value } = schema.validate(req.body, options);
+
+  if (error) {
+    // on fail return comma separated errors
+    let totalErrorText = "";
+    for (let i = 0; i < error.details.length; i++) {
+      totalErrorText += error.details[i].message + "\n";
+    }
+
+    return res.send(totalErrorText);
+  }
 
   let sql = `delete from tax_names where tax_id = ? and name_txt = ?;`;
 
@@ -161,18 +189,18 @@ router.delete("/taxonomy_taxid/", (req, res) => {
     if (error) {
       return console.error(error.message);
     }
-    res.send(results);
+    return res.send(results);
   });
 });
 
-router.patch("/taxonomy_taxid/", (req, res) => {
+router.patch("/taxonomy_taxid/", auth, (req, res) => {
   const obj = req.body;
 
   let sql = `update tax_names set name_txt = ? where tax_id = ? and name_txt = ? LIMIT 1;`;
 
   // console.log("obj", obj);
-  // console.log(sql);
-  // console.log([obj.data[0].name_txt, obj.data[0].tax_id, obj.data[1]]);
+  console.log(sql);
+  console.log([obj.data[1], obj.data[0].tax_id, obj.data[0].name_txt]);
   pool.query(
     sql,
     [obj.data[1], obj.data[0].tax_id, obj.data[0].name_txt],

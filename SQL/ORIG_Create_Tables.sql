@@ -222,3 +222,17 @@ ALTER TABLE `tax_names` ADD INDEX `idx_tax_names_lower_name_txt` (`lower_name_tx
 
 -- ALTER TABLE `Nodes` ADD INDEX `idx_NCBI_NODE_DIV` (`division_id`);
 -- ALTER TABLE `Nodes` ADD INDEX `idx_NCBI_NODE_CATEGORIES` (`tax_id`);
+
+
+-- Creation of Users table
+DROP Table `Users`;
+CREATE TABLE `Users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `realName` varchar(50) DEFAULT NULL,
+  `userName` varchar(40) DEFAULT NULL,
+  `active` bit(1) DEFAULT NULL,
+  `password` varchar(65) DEFAULT NULL,
+  `role` varchar(580) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_users_userName` (`userName`)
+);
