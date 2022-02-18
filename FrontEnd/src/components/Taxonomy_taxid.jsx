@@ -3,6 +3,7 @@ import httpService from "../services/httpService";
 import { Link } from "react-router-dom";
 import ClipBoardIcon from "./common/ClipBoardIcon";
 import _ from "lodash";
+import { apiUrl } from "../config.json";
 
 class Taxonomy_taxid extends Component {
   state = {
@@ -51,9 +52,7 @@ class Taxonomy_taxid extends Component {
 
   async componentDidMount() {
     let id = this.props.match.params.id;
-    const { data } = await httpService.get(
-      `http://localhost:3001/api/taxonomy_taxid/${id}`
-    );
+    const { data } = await httpService.get(`${apiUrl}/taxonomy_taxid/${id}`);
     this.setState({ myData: data }, () => {
       const objectFound = _.find(data, { name_class: "scientific name" });
       this.setState({
@@ -64,10 +63,6 @@ class Taxonomy_taxid extends Component {
   }
 
   handleDeletion = async (item) => {
-    // await httpService.delete(`http://localhost:3001/api/taxonomy_taxid`, {
-    //   data: item,
-    // });
-
     let copyOfMyData = this.state.myData;
     let filtered = copyOfMyData.filter((i) => i !== item);
 
@@ -75,7 +70,7 @@ class Taxonomy_taxid extends Component {
   };
 
   handleUpdate = async (item, newValue) => {
-    await httpService.patch(`http://localhost:3001/api/taxonomy_taxid`, {
+    await httpService.patch(`${apiUrl}/taxonomy_taxid`, {
       data: [item, this.state.modalUpdateSynonym],
     });
 

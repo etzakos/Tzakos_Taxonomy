@@ -1,3 +1,4 @@
+const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const express = require("express");
@@ -6,6 +7,31 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
+  const schema = Joi.object({
+    realName: Joi.string().required(),
+    userName: Joi.string().required(),
+    password: Joi.string().required(),
+  });
+
+  // schema options
+  const options = {
+    abortEarly: false, // include all errors
+    allowUnknown: true, // ignore unknown props
+    stripUnknown: true, // remove unknown props
+  };
+
+  // validate request body against schema
+  const { error, value } = schema.validate(req.body, options);
+
+  if (error) {
+    // on fail return comma separated errors
+    let totalErrorText = "";
+    for (let i = 0; i < error.details.length; i++) {
+      totalErrorText += error.details[i].message + "\n";
+    }
+    return res.send(totalErrorText);
+  }
+
   const { realName, userName, password } = req.body;
 
   sqlCheckIfRegistered = `select userName from Users where userName = ?`;
@@ -50,6 +76,7 @@ router.post("/", async (req, res) => {
           // Send JWT in Header
           return res
             .header("x-auth-token", token)
+            .header("access-control-expose-headers", "x-auth-token")
             .send("New user successfully registered");
         }
       );

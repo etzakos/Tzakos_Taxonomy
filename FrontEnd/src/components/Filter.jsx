@@ -1,3 +1,4 @@
+import { apiUrl } from "../config.json";
 import React, { Component } from "react";
 import Table from "./common/Table";
 import equal from "fast-deep-equal";
@@ -134,14 +135,14 @@ class Filter extends Component {
   }
 
   SearchAll = async () => {
-    const { data } = await httpService.get("http://localhost:3001/api/");
+    const { data } = await httpService.get(apiUrl);
     this.setState({ tableData: data, searched: true });
   };
 
   Search = async () => {
     this.setState({ isFetching: true });
     const { data } = await httpService.post(
-      "http://localhost:3001/api/filter_data",
+      `${apiUrl}/filter_data`,
       this.state.filterItems
     );
     this.setState({ tableData: data, searched: true });
