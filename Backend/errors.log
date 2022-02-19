@@ -5,3 +5,29 @@
  in JSON at position 65
 2022-02-18T18:09:38.922Z error: Unexpected string in JSON at position 73 Unexpected string in JSON at position 73
 2022-02-18T18:10:27.560Z error: Unexpected string in JSON at position 73 Unexpected string in JSON at position 73
+2022-02-19T00:41:10.946Z error: uncaughtException: Configuration property "database_naame" is not defined
+Error: Configuration property "database_naame" is not defined
+    at Config.get (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/config/lib/config.js:182:11)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/dbService.js:10:20)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
+    at Module.require (node:internal/modules/cjs/loader:1005:19)
+    at require (node:internal/modules/cjs/helpers:102:18)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/index.js:7:1)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
+2022-02-19T00:41:10.946Z error: uncaughtException: Configuration property "database_naame" is not defined
+Error: Configuration property "database_naame" is not defined
+    at Config.get (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/config/lib/config.js:182:11)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/dbService.js:10:20)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
+    at Module.require (node:internal/modules/cjs/loader:1005:19)
+    at require (node:internal/modules/cjs/helpers:102:18)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/index.js:7:1)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
+2022-02-19T00:45:37.638Z error: Unexpected string in JSON at position 73 Unexpected string in JSON at position 73
+2022-02-19T00:49:36.448Z error: Cannot read properties of null (reading 'role') Cannot read properties of null (reading 'role')

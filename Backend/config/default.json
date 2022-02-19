@@ -1,3 +1,8 @@
 {
-  "jwtPrivateKey": "taxonomy_jwtPrivateKey"
+  "dbHost": "localhost",
+  "dbUser": "root",
+  "dbPassword": "1qaz@WSX",
+  "database_name": "Taxonomy_25Jan2022",
+  "jwtPrivateKey": "taxonomy_jwtPrivateKey",
+  "requiresAuth": true
 }

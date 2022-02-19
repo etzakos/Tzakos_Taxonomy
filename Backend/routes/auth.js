@@ -1,11 +1,11 @@
+const express = require("express");
+const router = express.Router();
 const config = require("config");
 const jwt = require("jsonwebtoken");
-const express = require("express");
-const pool = require("../services/dbService");
-const router = express.Router();
 const bcrypt = require("bcrypt");
+const pool = require("../services/dbService");
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const { userName, password } = req.body;
 
   sqlCheckIfRegistered = `select id, userName, active, password, role from Users where userName = ?`;

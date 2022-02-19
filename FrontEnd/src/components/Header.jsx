@@ -1,13 +1,14 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Header = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a href="#" className="navbar-brand">
+      <Link to="/" className="navbar-brand">
         Tzakos Taxonomy
-      </a>
+      </Link>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -21,15 +22,38 @@ const Header = ({ user }) => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <a href="#" className="nav-link">
+            <Link to="/" className="nav-link">
               Home <span className="sr-only">(current)</span>{" "}
-            </a>
+            </Link>
           </li>
-          <li className="nav-item">
-            <a href="" className="nav-link">
-              Link
-            </a>
-          </li>
+          {!user && (
+            <React.Fragment>
+              <li className="nav-item">
+                <Link to="/login" className="nav-link">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/register" className="nav-link">
+                  Register
+                </Link>
+              </li>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <li className="nav-item">
+                <Link to="/login" className="nav-link">
+                  {user.name}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/logout" className="nav-link">
+                  Logout
+                </Link>
+              </li>
+            </React.Fragment>
+          )}
         </ul>
       </div>
     </nav>
