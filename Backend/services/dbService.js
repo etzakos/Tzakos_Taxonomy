@@ -1,12 +1,13 @@
 const logger = require("./logging");
 const mysql = require("mysql2");
+const config = require("config");
 
 var pool = mysql.createPool({
   connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  password: "1qaz@WSX",
-  database: "Taxonomy_25Jan2022",
+  host: config.get("dbHost"),
+  user: config.get("dbUser"),
+  password: config.get("dbPassword"),
+  database: config.get("database_name"),
 });
 
 pool.getConnection(function (err) {

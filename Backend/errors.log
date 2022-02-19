@@ -1,160 +1,33 @@
-2022-02-05T14:25:12.227Z error: uncaughtException: Identifier 'key' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:46
-      let key = item["field"][0]; /* e.g. tax_id */
-          ^
-
-SyntaxError: Identifier 'key' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
+2022-02-18T17:59:30.364Z error: Unexpected token s in JSON at position 68 Unexpected token s in JSON at position 68
+2022-02-18T18:04:49.239Z error: Unexpected token s in JSON at position 68 Unexpected token s in JSON at position 68
+2022-02-18T18:05:18.228Z error: Unexpected token 
+ in JSON at position 65 Unexpected token 
+ in JSON at position 65
+2022-02-18T18:09:38.922Z error: Unexpected string in JSON at position 73 Unexpected string in JSON at position 73
+2022-02-18T18:10:27.560Z error: Unexpected string in JSON at position 73 Unexpected string in JSON at position 73
+2022-02-19T00:41:10.946Z error: uncaughtException: Configuration property "database_naame" is not defined
+Error: Configuration property "database_naame" is not defined
+    at Config.get (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/config/lib/config.js:182:11)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/dbService.js:10:20)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
     at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
     at Module.load (node:internal/modules/cjs/loader:981:32)
     at Function.Module._load (node:internal/modules/cjs/loader:822:12)
     at Module.require (node:internal/modules/cjs/loader:1005:19)
     at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/index.js:7:1)
     at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-05T14:25:12.227Z error: uncaughtException: Identifier 'key' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:46
-      let key = item["field"][0]; /* e.g. tax_id */
-          ^
-
-SyntaxError: Identifier 'key' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
+2022-02-19T00:41:10.946Z error: uncaughtException: Configuration property "database_naame" is not defined
+Error: Configuration property "database_naame" is not defined
+    at Config.get (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/config/lib/config.js:182:11)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/dbService.js:10:20)
+    at Module._compile (node:internal/modules/cjs/loader:1101:14)
     at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
     at Module.load (node:internal/modules/cjs/loader:981:32)
     at Function.Module._load (node:internal/modules/cjs/loader:822:12)
     at Module.require (node:internal/modules/cjs/loader:1005:19)
     at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
+    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/index.js:7:1)
     at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-05T14:25:19.388Z error: uncaughtException: Identifier 'key' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:46
-      let key = item["field"][0]; /* e.g. tax_id */
-          ^
-
-SyntaxError: Identifier 'key' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-05T14:25:19.388Z error: uncaughtException: Identifier 'key' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:46
-      let key = item["field"][0]; /* e.g. tax_id */
-          ^
-
-SyntaxError: Identifier 'key' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-05T14:25:19.506Z error: uncaughtException: Identifier 'key' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:46
-      let key = item["field"][0]; /* e.g. tax_id */
-          ^
-
-SyntaxError: Identifier 'key' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-05T14:25:19.506Z error: uncaughtException: Identifier 'key' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:46
-      let key = item["field"][0]; /* e.g. tax_id */
-          ^
-
-SyntaxError: Identifier 'key' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-10T20:21:56.126Z error: uncaughtException: Identifier 'sql' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:158
-  let sql = `delete from tax_names where tax_id = ${obj.tax_id} and name_txt = ${obj.name_txt};`;
-      ^
-
-SyntaxError: Identifier 'sql' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-10T20:21:56.126Z error: uncaughtException: Identifier 'sql' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:158
-  let sql = `delete from tax_names where tax_id = ${obj.tax_id} and name_txt = ${obj.name_txt};`;
-      ^
-
-SyntaxError: Identifier 'sql' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-10T20:22:04.595Z error: uncaughtException: Identifier 'sql' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:158
-  let sql = `delete from tax_names where tax_id = ${obj.tax_id} and name_txt = ${obj.name_txt};`;
-      ^
-
-SyntaxError: Identifier 'sql' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
-2022-02-10T20:22:04.595Z error: uncaughtException: Identifier 'sql' has already been declared
-/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:158
-  let sql = `delete from tax_names where tax_id = ${obj.tax_id} and name_txt = ${obj.name_txt};`;
-      ^
-
-SyntaxError: Identifier 'sql' has already been declared
-    at Object.compileFunction (node:vm:352:18)
-    at wrapSafe (node:internal/modules/cjs/loader:1031:15)
-    at Module._compile (node:internal/modules/cjs/loader:1065:27)
-    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1153:10)
-    at Module.load (node:internal/modules/cjs/loader:981:32)
-    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
-    at Module.require (node:internal/modules/cjs/loader:1005:19)
-    at require (node:internal/modules/cjs/helpers:102:18)
-    at Object.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/routes.js:2:18)
-    at Module._compile (node:internal/modules/cjs/loader:1101:14)
+2022-02-19T00:45:37.638Z error: Unexpected string in JSON at position 73 Unexpected string in JSON at position 73
+2022-02-19T00:49:36.448Z error: Cannot read properties of null (reading 'role') Cannot read properties of null (reading 'role')

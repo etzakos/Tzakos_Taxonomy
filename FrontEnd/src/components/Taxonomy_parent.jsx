@@ -1,6 +1,7 @@
 import { Component } from "react";
 import httpService from "../services/httpService";
 import { Link } from "react-router-dom";
+import { apiUrl } from "../config.json";
 
 class Taxonomy_parent extends Component {
   state = {
@@ -9,9 +10,7 @@ class Taxonomy_parent extends Component {
 
   async componentDidMount() {
     let id = this.props.match.params.id;
-    const { data } = await httpService.get(
-      `http://localhost:3001/api/taxonomy_parent/${id}`
-    );
+    const { data } = await httpService.get(`${apiUrl}/taxonomy_parent/${id}`);
     this.setState({ myData: data });
   }
 

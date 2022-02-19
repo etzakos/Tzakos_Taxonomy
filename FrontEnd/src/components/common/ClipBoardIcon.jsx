@@ -18,7 +18,7 @@ const ClipBoardIcon = (props) => {
 
         setTimeout(() => {
           setIsClicked(false);
-        }, 1000);
+        }, 3000);
       }}
       className="ml-3"
     />

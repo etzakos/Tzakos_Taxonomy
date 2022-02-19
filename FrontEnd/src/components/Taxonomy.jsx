@@ -4,6 +4,7 @@ import httpService from "../services/httpService";
 import SearchBox from "./SearchBox";
 import Pagination from "./common/Pagination";
 import { paginate } from "./utils/paginate";
+import { apiUrl } from "../config.json";
 
 class Taxonomy extends Component {
   state = {
@@ -17,7 +18,7 @@ class Taxonomy extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await httpService.get("http://localhost:3001/api/");
+    const { data } = await httpService.get(apiUrl);
     this.setState({ myData: data });
   }
 

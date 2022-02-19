@@ -1,7 +1,7 @@
-const winston = require("winston");
+const logger = require("../services/logging");
 
 module.exports = function (err, req, res, next) {
-  winston.error(err.message, err);
+  logger.error(err.message, err);
 
   // error
   // warn
@@ -10,5 +10,5 @@ module.exports = function (err, req, res, next) {
   // debug
   // silly
 
-  res.status(500).send("Something failed.");
+  res.status(400).send("Bad Request");
 };

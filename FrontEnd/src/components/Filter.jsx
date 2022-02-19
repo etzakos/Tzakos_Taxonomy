@@ -1,3 +1,4 @@
+import { apiUrl } from "../config.json";
 import React, { Component } from "react";
 import Table from "./common/Table";
 import equal from "fast-deep-equal";
@@ -134,14 +135,14 @@ class Filter extends Component {
   }
 
   SearchAll = async () => {
-    const { data } = await httpService.get("http://localhost:3001/api/");
+    const { data } = await httpService.get(apiUrl);
     this.setState({ tableData: data, searched: true });
   };
 
   Search = async () => {
     this.setState({ isFetching: true });
     const { data } = await httpService.post(
-      "http://localhost:3001/api/filter_data",
+      `${apiUrl}/filter_data`,
       this.state.filterItems
     );
     this.setState({ tableData: data, searched: true });
@@ -153,7 +154,7 @@ class Filter extends Component {
 
   myStyle = (i) => {
     if (i === 0) {
-      return { marginLeft: "52px" };
+      return { marginLeft: "31px" };
     }
   };
 
@@ -169,7 +170,7 @@ class Filter extends Component {
   render() {
     const { availableTerms, filterItems, tableData } = this.state;
     return (
-      <div style={{ height: "100vw" }} className="bg-light mx-auto mt-4">
+      <div className="bg-light mx-auto mt-4">
         <div className="p-2 mx-auto text-center">
           {filterItems.map((item, i) => {
             return (
