@@ -42,10 +42,8 @@ const Header = ({ user }) => {
           )}
           {user && (
             <React.Fragment>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">
-                  {user.name}
-                </Link>
+              <li className="nav-item ml-auto">
+                <span className="nav-link">{user.userName}</span>
               </li>
               <li className="nav-item">
                 <Link to="/logout" className="nav-link">
