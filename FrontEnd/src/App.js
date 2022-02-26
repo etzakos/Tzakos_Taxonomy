@@ -2,7 +2,7 @@ import { Component } from "react";
 
 import Taxonomy from "./components/Taxonomy";
 import Taxonomy_parent from "./components/Taxonomy_parent";
-import Taxonomy_taxid from "./components/Taxonomy_taxid";
+import TaxonomyTaxid from "./components/Taxonomy_taxid";
 import { Route, Redirect, Switch } from "react-router-dom";
 import NotFound from "./components/Not_found";
 import Homepage from "./components/Homepage";
@@ -36,7 +36,12 @@ class App extends Component {
             <Route path="/taxonomy_parent/:id" component={Taxonomy_parent} />
             <Route path="/taxonomy" component={Taxonomy} />
             <Route path="/search" component={Filter} />
-            <Route path="/taxonomy_taxid/:id" component={Taxonomy_taxid} />
+            <Route
+              path="/taxonomy_taxid/:id"
+              render={(props) => (
+                <TaxonomyTaxid {...props} user={this.state.user} />
+              )}
+            />
             <Route path="/homepage" component={Homepage} />
             <Route path="/not-found" component={NotFound} />
             <Redirect from="/" exact to="/homepage" />

@@ -1,9 +1,13 @@
-import { Component } from "react";
-import httpService from "../services/httpService";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import ClipBoardIcon from "./common/ClipBoardIcon";
+import { ToastContainer, toast } from "react-toastify";
 import _ from "lodash";
+
+import httpService from "../services/httpService";
+import ClipBoardIcon from "./common/ClipBoardIcon";
 import { apiUrl } from "../config.json";
+
+import "react-toastify/dist/ReactToastify.css";
 
 class Taxonomy_taxid extends Component {
   state = {
@@ -11,11 +15,13 @@ class Taxonomy_taxid extends Component {
     showModal: false,
     showModalDeletion: false,
     showModalUpdate: false,
+    showModalInsert: false,
     scientificName: "",
     lineAge: "",
     modalDeletionRowData: {},
     modalUpdateRowData: {},
     modalUpdateSynonym: "",
+    modalInsertSynonym: "",
   };
 
   showModal = () => {
@@ -50,6 +56,65 @@ class Taxonomy_taxid extends Component {
     this.setState({ modalUpdateSynonym: e.target.value });
   };
 
+  showModalInsert = () => {
+    this.setState({
+      showModalInsert: true,
+    });
+  };
+
+  hideModalInsert = () => {
+    this.setState({
+      showModalInsert: false,
+    });
+  };
+
+  setModalInsertSynonym = (e) => {
+    this.setState({ modalInsertSynonym: e.target.value });
+  };
+
+  handleInsert = async () => {
+    console.log(this.state.myData);
+    const obj = _.find(this.state.myData, { name_class: "scientific name" });
+    console.log("Object found", obj);
+
+    const table = this.state.myData;
+
+    table.unshift({
+      tax_id: obj.tax_id,
+      rank_id: obj.rank_id,
+      embl_code: obj.embl_code,
+      name_txt: this.state.modalInsertSynonym,
+      genetic_code_id: obj.genetic_code_id,
+      name: obj.name,
+      parent_tax_id: obj.parent_tax_id,
+      cde: obj.cde,
+      id: this.state.myData.length + 1,
+      name_class: "synonym",
+      lineage: obj.lineAge,
+    });
+
+    try {
+      await httpService.post(`${apiUrl}/insert_synonym`, {
+        tax_id: obj.tax_id,
+        rank_id: obj.rank_id,
+        embl_code: obj.embl_code,
+        name_txt: this.state.modalInsertSynonym,
+        genetic_code_id: obj.genetic_code_id,
+        name: obj.name,
+        parent_tax_id: obj.parent_tax_id,
+        cde: obj.cde,
+        id: this.state.myData.length + 1,
+        name_class: "synonym",
+        lineage: obj.lineAge,
+      });
+    } catch (ex) {
+      console.log("ERROR ", ex.response);
+      toast.error("ERROR: " + ex.response.data);
+    }
+
+    this.setState({ myData: table, showModalInsert: false });
+  };
+
   async componentDidMount() {
     let id = this.props.match.params.id;
     const { data } = await httpService.get(`${apiUrl}/taxonomy_taxid/${id}`);
@@ -64,9 +129,25 @@ class Taxonomy_taxid extends Component {
 
   handleDeletion = async (item) => {
     let copyOfMyData = this.state.myData;
-    let filtered = copyOfMyData.filter((i) => i !== item);
+    console.log("132");
+    try {
+      let filtered = copyOfMyData.filter((i) => i !== item);
+      this.setState({ myData: filtered, showModalDeletion: false });
 
-    this.setState({ myData: filtered, showModalDeletion: false });
+      await httpService.delete(`${apiUrl}/taxonomy_taxid`, {
+        data: {
+          tax_id: item.tax_id,
+          name_txt: item.name_txt,
+        },
+      });
+    } catch (ex) {
+      toast.error("ERROR: " + ex.response.data);
+
+      setTimeout(() => {
+        // Rollback of deletion in the site
+        this.setState({ myData: copyOfMyData });
+      }, 1500);
+    }
   };
 
   handleUpdate = async (item, newValue) => {
@@ -88,6 +169,7 @@ class Taxonomy_taxid extends Component {
   render() {
     return (
       <div className="bg-light mx-auto mt-4 p-2">
+        <ToastContainer />
         <ModalDeletion
           show={this.state.showModalDeletion}
           handleClose={this.hideModalDeletion}
@@ -101,6 +183,14 @@ class Taxonomy_taxid extends Component {
           handleUpdate={this.handleUpdate}
           modalUpdateSynonym={this.state.modalUpdateSynonym}
           setModalUpdateSynonym={this.setModalUpdateSynonym}
+        />
+
+        <ModalInsert
+          show={this.state.showModalInsert}
+          handleClose={this.hideModalInsert}
+          handleInsert={this.handleInsert}
+          modalInsertSynonym={this.state.modalInsertSynonym}
+          setModalInsertSynonym={this.setModalInsertSynonym}
         />
 
         <h4 className="display-5">
@@ -117,6 +207,19 @@ class Taxonomy_taxid extends Component {
               <th scope="col">Genetic Name</th>
               <th scope="col">Parent Tax_ID</th>
               <th scope="col">Name Class</th>
+              <th>
+                {this.props.user && (
+                  <React.Fragment>
+                    <button
+                      className="btn btn-success btn-sm"
+                      onClick={() => this.showModalInsert()}
+                      disabled={this.props.user.role === "RO" ? "disabled" : ""}
+                    >
+                      Insert Synonym
+                    </button>
+                  </React.Fragment>
+                )}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -154,26 +257,36 @@ class Taxonomy_taxid extends Component {
                   </Link>
                 </td>
                 <td>{row.name_class}</td>
-                <td>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => this.showModalUpdate(row)}
-                  >
-                    update
-                  </button>
-                </td>
-                <td>
-                  {row.name_class === "scientific name" ? (
-                    ""
-                  ) : (
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => this.showModalDeletion(row)}
-                    >
-                      delete
-                    </button>
-                  )}
-                </td>
+                {this.props.user && (
+                  <React.Fragment>
+                    <td>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => this.showModalUpdate(row)}
+                        disabled={
+                          this.props.user.role === "RO" ? "disabled" : ""
+                        }
+                      >
+                        update
+                      </button>
+                    </td>
+                    <td>
+                      {row.name_class === "scientific name" ? (
+                        ""
+                      ) : (
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => this.showModalDeletion(row)}
+                          disabled={
+                            this.props.user.role === "RO" ? "disabled" : ""
+                          }
+                        >
+                          delete
+                        </button>
+                      )}
+                    </td>
+                  </React.Fragment>
+                )}
               </tr>
             ))}
           </tbody>
@@ -309,6 +422,61 @@ const ModalUpdate = ({
               onClick={() => handleUpdate(lineData)}
             >
               Update
+            </button>
+            <button className="btn btn-secondary" onClick={handleClose}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ModalInsert = ({
+  handleClose,
+  handleInsert,
+  show,
+  lineData,
+  modalInsertSynonym,
+  setModalInsertSynonym,
+}) => {
+  const showHiddenClassName = show
+    ? "modal display-block text-center"
+    : "modal display-none";
+
+  return (
+    <div
+      className={showHiddenClassName}
+      style={{ background: "rgba(0, 0, 0, 0.1)" }}
+    >
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Insert Synonym</h5>
+            <button className="close" onClick={handleClose}>
+              &times;
+            </button>
+          </div>
+          <div className="modal-body">
+            <form>
+              <div className="form-group">
+                <label htmlFor="username">Synonym</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={modalInsertSynonym}
+                  onChange={(e) => setModalInsertSynonym(e)}
+                />
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer mx-auto">
+            <button
+              className="btn btn-primary mr-5"
+              onClick={() => handleInsert(lineData)}
+            >
+              Insert
             </button>
             <button className="btn btn-secondary" onClick={handleClose}>
               Cancel

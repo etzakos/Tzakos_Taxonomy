@@ -7,9 +7,9 @@ import auth from "../../services/authService";
 class RegisterForm extends Form {
   state = {
     data: {
-      username: "ap.kapetanios30@wind.gr",
-      password: "a12345",
-      name: "Tolis Sketos",
+      username: "",
+      password: "",
+      name: "",
     },
     errors: {},
   };

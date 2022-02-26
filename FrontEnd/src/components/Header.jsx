@@ -1,8 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// props = {
+//   user: {
+//     userName: "e.tzakos",
+//     role: "RO",
+//     iat: 3242342344,
+//   },
+//   date: "24/4/20",
+//   mitsos: 5,
+// };
+
+function isAdmin(user) {
+  return user.role === "RW" ? "Admin" : "Read Only User";
+}
+
 const Header = ({ user }) => {
   return (
+    // <body className={"d-flex flex-column min-vh-100"}>
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link to="/" className="navbar-brand">
         Tzakos Taxonomy
@@ -43,7 +58,9 @@ const Header = ({ user }) => {
           {user && (
             <React.Fragment>
               <li className="nav-item ml-auto">
-                <span className="nav-link">{user.userName}</span>
+                <span className="nav-link">
+                  {user.userName + " | " + isAdmin(user)}
+                </span>
               </li>
               <li className="nav-item">
                 <Link to="/logout" className="nav-link">
@@ -55,6 +72,7 @@ const Header = ({ user }) => {
         </ul>
       </div>
     </nav>
+    // </body>
   );
 };
 

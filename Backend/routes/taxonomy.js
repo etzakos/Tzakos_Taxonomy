@@ -97,6 +97,50 @@ router.post("/filter_data", (req, res) => {
   });
 });
 
+router.post("/insert_synonym", [auth, admin], (req, res) => {
+  const bodyObj = req.body;
+  console.log(bodyObj);
+  let sqlInsert =
+    "insert into tax_names (tax_id, name_txt, unique_name, name_class, lower_name_txt) ";
+  sqlInsert += "values (?, ?, ?, ?, ?)";
+
+  // tax_id: obj.tax_id,
+  // rank_id: obj.rank_id,
+  // embl_code: obj.embl_code,
+  // name_txt: this.state.modalInsertSynonym,
+  // genetic_code_id: obj.genetic_code_id,
+  // name: obj.name,
+  // parent_tax_id: obj.parent_tax_id,
+  // cde: obj.cde,
+  // id: this.state.myData.length + 1,
+  // name_class: "synonym",
+  // lineage: obj.lineAge,
+
+  console.log(sqlInsert);
+  console.log(
+    bodyObj.tax_id,
+    bodyObj.name_txt,
+    bodyObj.name_class,
+    bodyObj.name_class.toLowerCase()
+  );
+  const emptyValue = "EMPTY";
+  const myValues = [
+    bodyObj.tax_id,
+    bodyObj.name_txt,
+    emptyValue,
+    bodyObj.name_class,
+    bodyObj.name_class.toLowerCase(),
+  ];
+
+  console.table(myValues);
+  pool.query(sqlInsert, myValues, (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    return res.send(results);
+  });
+});
+
 router.get("/tax_id/:id", (req, res) => {
   let id = req.params.id;
   let sql = `
@@ -153,11 +197,11 @@ router.get("/taxonomy_taxid/:id", (req, res) => {
   });
 });
 
-router.delete("/taxonomy_taxid/", [auth, admin], (req, res) => {
+router.delete("/taxonomy_taxid", [auth, admin], (req, res) => {
   const obj = req.body;
 
   const schema = Joi.object({
-    tax_id: Joi.string().required(),
+    tax_id: Joi.number().required(),
     name_txt: Joi.string().required(),
   });
 
@@ -189,6 +233,12 @@ router.delete("/taxonomy_taxid/", [auth, admin], (req, res) => {
     if (error) {
       return console.error(error.message);
     }
+    console.log(results);
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send("Row does not exit in DB");
+    }
+
     return res.send(results);
   });
 });
