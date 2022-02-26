@@ -5,13 +5,13 @@ import auth from "../../services/authService";
 
 class LoginForm extends Form {
   state = {
-    data: { username: "ap.kapetanios30@wind.gr", password: "a12345" },
+    data: { username: "", password: "" },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().required().label("User Name"),
-    password: Joi.string().required().label("Password"),
+    username: Joi.string().required().email().label("User Name"),
+    password: Joi.string().required().min(5).label("Password"),
   };
 
   doSubmit = async () => {
@@ -28,7 +28,6 @@ class LoginForm extends Form {
       // Full web page reload is required
       window.location = "/";
     } catch (ex) {
-      console.log(25);
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
         errors.username = ex.response.data;
