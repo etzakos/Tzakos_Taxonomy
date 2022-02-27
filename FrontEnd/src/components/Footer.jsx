@@ -1,21 +1,19 @@
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <footer className="fixed-bottom text-muted text-center mx-auto">
-      <div className="container">
+    <footer className="text-muted text-center mt-auto ">
+      <div className="container fixed-bottom ">
+        {/* <div className="container navbar-fixed-bottom "> fix issuw with mob but issue with page*/}
+        {/*style={{ bottom: "0", position: "fixed" }} */}
+
         <p className="float-end mb-1">
           <Link to="#">Back to top</Link>
         </p>
         <p className="mb-1">
-          Album example is &copy; Bootstrap, but please download and customize
-          it for yourself!
+          &copy; Tzakos Taxonomy 2022 (based on NCBI Taxonomy DB)
         </p>
         <p className="mb-0">
-          New to Bootstrap? <Link to="/">Visit the homepage</Link> or read our{" "}
-          <Link to="/docs/5.0/getting-started/introduction/">
-            getting started guide
-          </Link>
-          .
+          Αρχιτεκτονική Εφαρμογών Διαδικτύου και Βιοπληροφορική.
         </p>
       </div>
     </footer>

@@ -89,3 +89,27 @@ Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the cli
     at Query.onResult (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/routes/taxonomy.js:242:16)
     at /Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/commands/query.js:90:16
     at processTicksAndRejections (node:internal/process/task_queues:78:11)
+2022-02-26T18:14:54.541Z error: uncaughtException: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+Error: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+    at C:\taxonomy\official\Backend\services\dbService.js:15:11
+    at C:\taxonomy\official\Backend\node_modules\mysql2\lib\pool.js:60:18
+    at PoolConnection.<anonymous> (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:775:13)
+    at Object.onceWrapper (node:events:510:26)
+    at PoolConnection.emit (node:events:402:35)
+    at PoolConnection._notifyError (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:236:12)
+    at ClientHandshake.<anonymous> (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:125:14)
+    at ClientHandshake.emit (node:events:402:35)
+    at ClientHandshake.execute (C:\taxonomy\official\Backend\node_modules\mysql2\lib\commands\command.js:39:14)
+    at PoolConnection.handlePacket (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:456:32)
+2022-02-26T18:14:54.541Z error: uncaughtException: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+Error: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+    at C:\taxonomy\official\Backend\services\dbService.js:15:11
+    at C:\taxonomy\official\Backend\node_modules\mysql2\lib\pool.js:60:18
+    at PoolConnection.<anonymous> (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:775:13)
+    at Object.onceWrapper (node:events:510:26)
+    at PoolConnection.emit (node:events:402:35)
+    at PoolConnection._notifyError (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:236:12)
+    at ClientHandshake.<anonymous> (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:125:14)
+    at ClientHandshake.emit (node:events:402:35)
+    at ClientHandshake.execute (C:\taxonomy\official\Backend\node_modules\mysql2\lib\commands\command.js:39:14)
+    at PoolConnection.handlePacket (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:456:32)

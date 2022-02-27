@@ -1,8 +1,8 @@
 {
   "dbHost": "localhost",
   "dbUser": "root",
-  "dbPassword": "1qaz@WSX",
-  "database_name": "Taxonomy_25Jan2022",
+  "dbPassword": "root",
+  "database_name": "taxonomy_tzakos",
   "jwtPrivateKey": "taxonomy_jwtPrivateKey",
   "requiresAuth": true
 }
