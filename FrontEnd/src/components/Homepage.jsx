@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../pictures/taxonomy.jpg"; // with import
+import ftpPicture from "../pictures/ftp_ncbi.jpg";
+import linePicture from "../pictures/Carl_von_Linne.jpg"; // with
 class Homepage extends React.Component {
   state = {};
 
@@ -10,12 +13,12 @@ class Homepage extends React.Component {
           <section className="py-2 text-center container">
             <div className="row py-lg-5">
               <div className="col-lg-6 col-md-8 mx-auto">
-                <h1 className="fw-light">Album example</h1>
+                <h1 className="fw-light">Tzakos Taxonomy</h1>
                 <p className="lead text-muted">
-                  Something short and leading about the collection below—its
-                  contents, the creator, etc. Make it short and sweet, but not
-                  too short so folks don’t simply skip over it entirely.
+                  Εργασία: «Ανάπτυξη εφαρμογής Web για την πλοήγηση, την
+                  αναζήτηση και τη διαχείριση βιολογικών δεδομένων »
                 </p>
+
                 <p>
                   <Link to="/search" className="btn btn-primary my-2">
                     Go to Taxonomy
@@ -30,137 +33,95 @@ class Homepage extends React.Component {
               <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div className="col">
                   <div className="card shadow-sm">
-                    <svg
-                      className="bd-placeholder-img card-img-top"
+                    <img
+                      className="card-img-top"
+                      src={logo}
+                      alt="NCBI TAXONOMY"
                       width="100%"
-                      height="225"
-                      xmlns="http://www.w3.org/2000/svg"
-                      role="img"
-                      aria-label="Placeholder: Thumbnail"
-                      preserveAspectRatio="xMidYMid slice"
-                      focusable="false"
-                    >
-                      <title>Placeholder</title>
-                      <rect width="100%" height="100%" fill="#55595c" />
-                      <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                        Thumbnail
-                      </text>
-                    </svg>
-
+                      height="190"
+                    ></img>
                     <div className="card-body">
                       <p className="card-text">
-                        This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer.
+                        The Taxonomy Database is a curated classification and
+                        nomenclature for all of the organisms in the public
+                        sequence databases. This currently represents about 10%
+                        of the described species of life on the planet. .
                       </p>
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="btn-group">
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            View
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                        <small className="text-muted">9 mins</small>
-                      </div>
+                    </div>
+
+                    <div className="card-body row justify-content-center">
+                      <p className="card-text">
+                        {" "}
+                        <a
+                          class="class"
+                          href="https://www.ncbi.nlm.nih.gov/taxonomy/"
+                          id="id"
+                        >
+                          NCBI TAXONOMY
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>
                 <div className="col">
                   <div className="card shadow-sm">
-                    <svg
-                      className="bd-placeholder-img card-img-top"
+                    <img
+                      className="card-img-top"
+                      src={ftpPicture}
+                      alt="NCBI FTP"
                       width="100%"
-                      height="225"
-                      xmlns="http://www.w3.org/2000/svg"
-                      role="img"
-                      aria-label="Placeholder: Thumbnail"
-                      preserveAspectRatio="xMidYMid slice"
-                      focusable="false"
-                    >
-                      <title>Placeholder</title>
-                      <rect width="100%" height="100%" fill="#55595c" />
-                      <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                        Thumbnail
-                      </text>
-                    </svg>
-
+                      height="209"
+                    ></img>
                     <div className="card-body">
                       <p className="card-text">
-                        This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer.
+                        NCBI Taxonomy database dump files. Τα αρχεία που
+                        χρησιμοποιήσαμε για την δημιουργία της DB που
+                        χρησιμοποιεί η Web εφαρμογή Tzakos Taxonomy
                       </p>
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="btn-group">
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            View
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                        <small className="text-muted">9 mins</small>
-                      </div>
+                    </div>
+
+                    <div className="card-body row justify-content-center">
+                      <p className="card-text">
+                        {" "}
+                        <a
+                          class="class"
+                          href="https://ftp.ncbi.nih.gov/pub/taxonomy/new_taxdump/"
+                          id="id"
+                        >
+                          NCBI Taxonomy FTP
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="col">
-                  <div className="card shadow-sm">
-                    <svg
-                      className="bd-placeholder-img card-img-top"
-                      width="100%"
-                      height="225"
-                      xmlns="http://www.w3.org/2000/svg"
-                      role="img"
-                      aria-label="Placeholder: Thumbnail"
-                      preserveAspectRatio="xMidYMid slice"
-                      focusable="false"
-                    >
-                      <title>Placeholder</title>
-                      <rect width="100%" height="100%" fill="#55595c" />
-                      <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                        Thumbnail
-                      </text>
-                    </svg>
+                <div className="card shadow-sm">
+                  <img
+                    className="card-img-top"
+                    src={linePicture}
+                    alt="NCBI TAXONOMY"
+                    width="100%"
+                    height="189"
+                  ></img>
+                  <div className="card-body">
+                    <p className="card-text">
+                      Ο Καρλ Λινέ (Carl von Linné ή εξελληνισμένα Κάρολος
+                      Λινναίος (Ρόσουλτ 23 Μαΐου 1707 – Ουψάλα 10 Ιανουαρίου
+                      1778) ήταν Σουηδός βοτανολόγος, ιατρός και ζωολόγος, που
+                      έβαλε τα θεμέλια της διωνυμικής ονοματολογίας.
+                    </p>
+                  </div>
 
-                    <div className="card-body">
-                      <p className="card-text">
-                        This is a wider card with supporting text below as a
-                        natural lead-in to additional content. This content is a
-                        little bit longer.
-                      </p>
-                      <div className="d-flex justify-content-between align-items-center">
-                        <div className="btn-group">
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            View
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-secondary"
-                          >
-                            Edit
-                          </button>
-                        </div>
-                        <small className="text-muted">9 mins</small>
-                      </div>
-                    </div>
+                  <div className="card-body row justify-content-center">
+                    <p className="card-text">
+                      {" "}
+                      <a
+                        class="class"
+                        href="https://el.wikipedia.org/wiki/%CE%9A%CE%AC%CF%81%CE%BF%CE%BB%CE%BF%CF%82_%CE%9B%CE%B9%CE%BD%CE%BD%CE%B1%CE%AF%CE%BF%CF%82"
+                        id="id"
+                      >
+                        Κάρολος Λινναίος
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>

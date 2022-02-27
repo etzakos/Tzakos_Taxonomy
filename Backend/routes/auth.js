@@ -1,11 +1,11 @@
+const express = require("express");
+const router = express.Router();
 const config = require("config");
 const jwt = require("jsonwebtoken");
-const express = require("express");
-const pool = require("../services/dbService");
-const router = express.Router();
 const bcrypt = require("bcrypt");
+const pool = require("../services/dbService");
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const { userName, password } = req.body;
 
   sqlCheckIfRegistered = `select id, userName, active, password, role from Users where userName = ?`;
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 
       // Check if User name exists
       if (results && results.length === 0)
-        return res.status(400).send("User name or password incorrect 1");
+        return res.status(400).send("User name or password incorrect");
 
       const {
         id,
@@ -47,9 +47,10 @@ router.post("/", async (req, res) => {
 
       //   return res.send("User name and password correct!  " + token);
       // Send JWT in Header
-      return res
-        .header("x-auth-token", token)
-        .send("Authentication Successful");
+      // return res
+      //   .header("x-auth-token", token)
+      //   .send("Authentication Successful");
+      return res.header("x-auth-token", token).send(token);
     }
   );
 });

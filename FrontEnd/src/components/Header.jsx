@@ -1,84 +1,82 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+// props = {
+//   user: {
+//     userName: "e.tzakos",
+//     role: "RO",
+//     iat: 3242342344,
+//   },
+//   date: "24/4/20",
+//   mitsos: 5,
+// };
+
+function isAdmin(user) {
+  return user.role === "RW" ? "Admin" : "Read Only User";
+}
+
+const Header = ({ user }) => {
   return (
-    <header>
-      <div className="collapse bg-dark" id="navbarHeader">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-8 col-md-7 py-4">
-              <h4 className="text-white">About</h4>
-              <p className="text-muted">
-                Add some information about the album below, the author, or any
-                other background context. Make it a few sentences long so folks
-                can pick up some informative tidbits. Then, link them off to
-                some social networking sites or contact information.
-              </p>
-            </div>
-            <div className="col-sm-4 offset-md-1 py-4">
-              <h4 className="text-white">Contact</h4>
-              <ul className="list-unstyled">
-                <li>
-                  <Link to="#" className="text-white">
-                    Follow on Twitter
-                  </Link>
-                </li>
-                <li>
-                  <Link to="#" className="text-white">
-                    Like on Facebook
-                  </Link>
-                </li>
-                <li>
-                  <Link to="#" className="text-white">
-                    Email me
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="navbar navbar-dark bg-dark shadow-sm">
-        <div className="container">
-          <Link to="#" className="navbar-brand d-flex align-items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="me-2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-              <circle cx="12" cy="13" r="4" />
-            </svg>
-          </Link>
-          <strong>
-            <Link
-              to="/"
-              style={{ textDecoration: "none", color: "white", font: "20px" }}
-            >
-              Tzakos Taxonomy
+    // <body className={"d-flex flex-column min-vh-100"}>
+
+    <nav className="navbar-fixed-bottom navbar-expand-lg navbar-light bg-light  ">
+      <Link to="/" className="navbar-brand">
+        Tzakos Taxonomy
+      </Link>
+
+      <ul class="nav navbar-nav navbar-right">
+        <button
+          className="navbar-toggler ml-auto"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+      </ul>
+
+      <div className="collapse navbar-collapse  " id="navbarSupportedContent">
+        <ul className="navbar-nav ">
+          <li className="nav-item active">
+            <Link to="/" className="nav-link">
+              Home <span className="sr-only">(current)</span>{" "}
             </Link>
-          </strong>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarHeader"
-            aria-controls="navbarHeader"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-        </div>
+          </li>
+          {!user && (
+            <React.Fragment>
+              <li className="nav-item">
+                <Link to="/login" className="nav-link">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/register" className="nav-link">
+                  Register
+                </Link>
+              </li>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <li className="nav-item mr-auto">
+                <span className="nav-link">
+                  {user.userName + " | " + isAdmin(user)}
+                </span>
+              </li>
+              <li className="nav-item">
+                <Link to="/logout" className="nav-link">
+                  Logout
+                </Link>
+              </li>
+            </React.Fragment>
+          )}
+        </ul>
       </div>
-    </header>
+    </nav>
+    //body
   );
 };
 
