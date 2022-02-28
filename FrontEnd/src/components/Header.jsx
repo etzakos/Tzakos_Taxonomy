@@ -19,64 +19,62 @@ const Header = ({ user }) => {
   return (
     // <body className={"d-flex flex-column min-vh-100"}>
 
-    <nav className="navbar-fixed-bottom navbar-expand-lg navbar-light bg-light  ">
-      <Link to="/" className="navbar-brand">
-        Tzakos Taxonomy
-      </Link>
+    <React.Fragment>
+      <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <div className="container">
+          <Link to="/" className="navbar-brand">
+            Tzakos Taxonomy
+          </Link>
+          <button
+            className="navbar-toggler"
+            data-toggle="collapse"
+            data-target="#navbarCollapse"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
 
-      <ul class="nav navbar-nav navbar-right">
-        <button
-          className="navbar-toggler ml-auto"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-      </ul>
+          <div className="collapse navbar-collapse" id="navbarCollapse">
+            <ul className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to="/" className="nav-link">
+                  Home
+                </Link>
+              </li>
 
-      <div className="collapse navbar-collapse  " id="navbarSupportedContent">
-        <ul className="navbar-nav ">
-          <li className="nav-item active">
-            <Link to="/" className="nav-link">
-              Home <span className="sr-only">(current)</span>{" "}
-            </Link>
-          </li>
-          {!user && (
-            <React.Fragment>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/register" className="nav-link">
-                  Register
-                </Link>
-              </li>
-            </React.Fragment>
-          )}
-          {user && (
-            <React.Fragment>
-              <li className="nav-item mr-auto">
-                <span className="nav-link">
-                  {user.userName + " | " + isAdmin(user)}
-                </span>
-              </li>
-              <li className="nav-item">
-                <Link to="/logout" className="nav-link">
-                  Logout
-                </Link>
-              </li>
-            </React.Fragment>
-          )}
-        </ul>
-      </div>
-    </nav>
-    //body
+              {!user && (
+                <React.Fragment>
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link">
+                      Login
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/register" className="nav-link">
+                      Register
+                    </Link>
+                  </li>
+                </React.Fragment>
+              )}
+              {user && (
+                <React.Fragment>
+                  <li className="nav-item">
+                    <span className="nav-link">
+                      {user.userName + " | " + isAdmin(user)}
+                    </span>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/logout" className="nav-link">
+                      Logout
+                    </Link>
+                  </li>
+                </React.Fragment>
+              )}
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div className="pb-5"></div>
+    </React.Fragment>
   );
 };
 

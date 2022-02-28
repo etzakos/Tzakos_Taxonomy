@@ -113,3 +113,27 @@ Error: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Err
     at ClientHandshake.emit (node:events:402:35)
     at ClientHandshake.execute (C:\taxonomy\official\Backend\node_modules\mysql2\lib\commands\command.js:39:14)
     at PoolConnection.handlePacket (C:\taxonomy\official\Backend\node_modules\mysql2\lib\connection.js:456:32)
+2022-02-28T16:00:48.915Z error: uncaughtException: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+Error: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+    at /Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/dbService.js:15:11
+    at /Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/pool.js:60:18
+    at PoolConnection.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:775:13)
+    at Object.onceWrapper (node:events:510:26)
+    at PoolConnection.emit (node:events:402:35)
+    at PoolConnection._notifyError (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:236:12)
+    at ClientHandshake.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:125:14)
+    at ClientHandshake.emit (node:events:402:35)
+    at ClientHandshake.execute (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/commands/command.js:39:14)
+    at PoolConnection.handlePacket (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:456:32)
+2022-02-28T16:00:48.915Z error: uncaughtException: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+Error: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Error: Access denied for user 'root'@'localhost' (using password: YES)
+    at /Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/services/dbService.js:15:11
+    at /Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/pool.js:60:18
+    at PoolConnection.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:775:13)
+    at Object.onceWrapper (node:events:510:26)
+    at PoolConnection.emit (node:events:402:35)
+    at PoolConnection._notifyError (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:236:12)
+    at ClientHandshake.<anonymous> (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:125:14)
+    at ClientHandshake.emit (node:events:402:35)
+    at ClientHandshake.execute (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/commands/command.js:39:14)
+    at PoolConnection.handlePacket (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:456:32)
