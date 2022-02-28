@@ -137,3 +137,7 @@ Error: ERROR: Access denied for user 'root'@'localhost' (using password: YES)Err
     at ClientHandshake.emit (node:events:402:35)
     at ClientHandshake.execute (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/commands/command.js:39:14)
     at PoolConnection.handlePacket (/Users/apostoloskapetanios/Library/Mobile Documents/com~apple~CloudDocs/Knowledge/Programming/Tzakos/Tzakos_Taxonomy/Backend/node_modules/mysql2/lib/connection.js:456:32)
+2022-02-28T20:14:08.041Z error: Unexpected token d in JSON at position 0 Unexpected token d in JSON at position 0
+2022-02-28T20:15:52.930Z error: Unexpected token d in JSON at position 0 Unexpected token d in JSON at position 0
+2022-02-28T20:15:56.310Z error: Unexpected token d in JSON at position 0 Unexpected token d in JSON at position 0
+2022-02-28T20:16:20.250Z error: Unexpected token d in JSON at position 0 Unexpected token d in JSON at position 0

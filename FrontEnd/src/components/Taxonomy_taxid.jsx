@@ -93,6 +93,8 @@ class Taxonomy_taxid extends Component {
       lineage: obj.lineAge,
     });
 
+    this.setState({ myData: table, showModalInsert: false });
+
     try {
       await httpService.post(`${apiUrl}/insert_synonym`, {
         tax_id: obj.tax_id,
@@ -111,8 +113,6 @@ class Taxonomy_taxid extends Component {
       console.log("ERROR ", ex.response);
       toast.error("ERROR: " + ex.response.data);
     }
-
-    this.setState({ myData: table, showModalInsert: false });
   };
 
   async componentDidMount() {

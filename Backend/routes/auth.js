@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const pool = require("../services/dbService");
 
 router.post("/", async (req, res, next) => {
-  const { userName, password } = req.body;
+  const { userName } = req.body; // Object Destructuring
 
   sqlCheckIfRegistered = `select id, userName, active, password, role from Users where userName = ?`;
 
@@ -38,7 +38,7 @@ router.post("/", async (req, res, next) => {
 
       // Check if Password is valid and the account is Active
       if (!validPassword || !activeInDB)
-        return res.status(400).send("User name or password incorrect 2");
+        return res.status(400).send("User name or password incorrect");
 
       const token = jwt.sign(
         { id: id, userName: userNameInDB, role: roleInDB },
