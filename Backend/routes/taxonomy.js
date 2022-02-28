@@ -243,7 +243,7 @@ router.delete("/taxonomy_taxid", [auth, admin], (req, res) => {
   });
 });
 
-router.patch("/taxonomy_taxid/", auth, (req, res) => {
+router.patch("/taxonomy_taxid/", [auth, admin], (req, res) => {
   const obj = req.body;
 
   let sql = `update tax_names set name_txt = ? where tax_id = ? and name_txt = ? LIMIT 1;`;
