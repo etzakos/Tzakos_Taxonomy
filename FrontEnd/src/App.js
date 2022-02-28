@@ -47,7 +47,7 @@ class App extends Component {
             <Redirect from="/" exact to="/homepage" />
             <Redirect to="/not-found" />
           </Switch>
-          <Footer className="fixed-bottom mx-auto" />
+          <Footer />
         </main>
       </div>
     );

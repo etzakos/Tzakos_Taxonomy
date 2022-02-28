@@ -37,10 +37,10 @@ class Table extends Component {
         <h4>Results found: {this.props.numberOfResults}</h4>
         <div className="col-lg-1 col-sm-1"></div>
         <div className="col-lg-12 col-sm-12">
-          <table className="table ">
+          <table className="table">
             <thead>
               <tr>
-                <th scope="col">Item</th>
+                <th scope="col">Item2</th>
                 <th scope="col">Tax_ID</th>
                 <th scope="col">Scientific Name</th>
                 <th scope="col">Rank</th>
